@@ -2,8 +2,7 @@
 Provider-Agnostic Model Initialization
 Run: python 02-chat-models/code/04_init_chat_model.py
 
-This example demonstrates init_chat_model() with Google Gemini and shows how
-to switch providers by changing the model identifier.
+This example demonstrates init_chat_model() with Gemini's OpenAI-compatible API.
 """
 
 import os
@@ -15,10 +14,14 @@ from langchain_core.messages import HumanMessage
 load_dotenv()
 
 
-def google_gemini_example():
-    """Demonstrate init_chat_model() with Google Gemini."""
+def gemini_example():
+    """Demonstrate init_chat_model() with Gemini's OpenAI-compatible API."""
     model_name = os.getenv("AI_MODEL", "gemini-3.5-flash-lite")
-    model = init_chat_model(f"google_genai:{model_name}")
+    model = init_chat_model(
+        f"openai:{model_name}",
+        base_url=os.getenv("OPENAI_BASE_URL"),
+        api_key=os.getenv("OPENAI_API_KEY"),
+    )
 
     response = model.invoke(
         [HumanMessage(content="What is LangChain in one sentence?")]
@@ -29,10 +32,10 @@ def google_gemini_example():
 
 
 def switching_providers_concept():
-    """Show how init_chat_model() enables easy provider switching."""
-    print("\nSwitch providers by changing the model identifier:\n")
-    print('  # Google Gemini (course default)')
-    print('  model = init_chat_model("google_genai:gemini-3.5-flash-lite")')
+    """Show how init_chat_model() enables provider switching."""
+    print("\nSwitch providers by changing the model identifier and configuration:\n")
+    print('  # Google Gemini via its OpenAI-compatible endpoint (course default)')
+    print('  model = init_chat_model("openai:gemini-3.5-flash-lite", base_url=...)')
     print()
     print('  # OpenAI')
     print('  model = init_chat_model("openai:<model-name>")')
@@ -45,7 +48,7 @@ def switching_providers_concept():
 def main():
     print("Provider-Agnostic Initialization with LangChain\n")
     print("=" * 60)
-    google_gemini_example()
+    gemini_example()
     switching_providers_concept()
 
 

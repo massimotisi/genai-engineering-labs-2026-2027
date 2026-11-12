@@ -8,7 +8,7 @@ from dataclasses import dataclass, field
 from typing import Optional
 
 from dotenv import load_dotenv
-from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_openai import ChatOpenAI
 
 # Load environment variables
 load_dotenv()
@@ -44,7 +44,7 @@ class TokenTracker:
         output_cost = (output_tokens / 1_000_000) * self.OUTPUT_COST_PER_MILLION
         return input_cost + output_cost
 
-    def track_call(self, model: ChatGoogleGenerativeAI, query: str) -> str:
+    def track_call(self, model: ChatOpenAI, query: str) -> str:
         self.call_count += 1
 
         print(f"\n Call #{self.call_count}: Processing...")
@@ -156,7 +156,7 @@ def main():
     print(" Token Usage Tracker\n")
     print("=" * 60 + "\n")
 
-    model = ChatGoogleGenerativeAI(
+    model = ChatOpenAI(
         model=os.environ.get("AI_MODEL", "gemini-3.5-flash-lite")
     )
 

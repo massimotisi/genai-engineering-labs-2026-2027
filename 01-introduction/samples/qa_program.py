@@ -6,13 +6,13 @@ A simple interactive program that allows you to ask questions to an LLM.
 import os
 
 from dotenv import load_dotenv
-from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_openai import ChatOpenAI
 
 # Load environment variables
 load_dotenv()
 
 # Create a Gemini chat model instance
-model = ChatGoogleGenerativeAI(
+model = ChatOpenAI(
     model=os.environ.get("AI_MODEL", "gemini-3.5-flash-lite")
 )
 

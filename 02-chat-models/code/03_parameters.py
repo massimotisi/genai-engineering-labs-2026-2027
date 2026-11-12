@@ -6,7 +6,7 @@ Run: python 02-chat-models/code/03_parameters.py
 import os
 
 from dotenv import load_dotenv
-from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_openai import ChatOpenAI
 
 # Load environment variables
 load_dotenv()
@@ -26,7 +26,7 @@ def temperature_comparison():
         print(f"\nTemperature: {temp}")
         print("-" * 80)
 
-        model = ChatGoogleGenerativeAI(
+        model = ChatOpenAI(
             model=model_name,
             temperature=temp,
         )
@@ -67,7 +67,7 @@ def max_tokens_example():
         print(f"\nMax Tokens: {max_tokens}")
         print("-" * 80)
 
-        model = ChatGoogleGenerativeAI(
+        model = ChatOpenAI(
             model=os.getenv("AI_MODEL", "gemini-3.5-flash-lite"),
             max_tokens=max_tokens,
         )

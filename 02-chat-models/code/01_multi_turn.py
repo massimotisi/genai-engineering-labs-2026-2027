@@ -7,7 +7,7 @@ import os
 
 from dotenv import load_dotenv
 from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
-from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_openai import ChatOpenAI
 
 # Load environment variables
 load_dotenv()
@@ -17,7 +17,7 @@ def main():
     print(" Multi-Turn Conversation Example\n")
 
     # Create a chat model instance
-    model = ChatGoogleGenerativeAI(
+    model = ChatOpenAI(
         model=os.getenv("AI_MODEL", "gemini-3.5-flash-lite"),
     )
 

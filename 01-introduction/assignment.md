@@ -32,14 +32,14 @@ Now that you've learned the basics of LangChain, it's time to practice! These ex
 **Hints**:
 ```python
 # 1. Import required modules
-from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_openai import ChatOpenAI
 from langchain_core.messages import HumanMessage, SystemMessage
 from dotenv import load_dotenv
 
 # 2. Load environment variables
 load_dotenv()
 
-# 3. Create the ChatGoogleGenerativeAI model (reuse for all personalities)
+# 3. Create the ChatOpenAI model (reuse for all personalities)
 
 # 4. Define a list of personalities with name and system prompt
 
@@ -89,7 +89,7 @@ gemma-4-26b-a4b-it    | 1234ms  | 456ch  |
 ```python
 # 1. Import required modules
 import time
-from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_openai import ChatOpenAI
 from dotenv import load_dotenv
 
 # 2. Load environment variables
@@ -105,7 +105,7 @@ models = [
 
 # 4. Create a function to test each model:
 #    - Accept model_name as parameter
-#    - Create ChatGoogleGenerativeAI instance with that model
+#    - Create ChatOpenAI instance with that model
 #    - Measure start time with time.time()
 #    - Invoke the model with the question
 #    - Measure end time and calculate duration

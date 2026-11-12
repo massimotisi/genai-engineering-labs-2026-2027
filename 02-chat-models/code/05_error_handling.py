@@ -6,7 +6,7 @@ Run: python 02-chat-models/code/05_error_handling.py
 import os
 
 from dotenv import load_dotenv
-from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_openai import ChatOpenAI
 
 # Load environment variables
 load_dotenv()
@@ -14,7 +14,7 @@ load_dotenv()
 
 def robust_call(prompt: str, max_retries: int = 3) -> str:
     """Makes an API call with automatic retry logic using LangChain's built-in with_retry()"""
-    model = ChatGoogleGenerativeAI(
+    model = ChatOpenAI(
         model=os.getenv("AI_MODEL", "gemini-3.5-flash-lite"),
     )
 
@@ -37,7 +37,7 @@ def error_examples():
     # Example 1: Invalid API key - actually demonstrate the error!
     print("\n1️⃣  Example: Invalid API Key\n")
     try:
-        bad_model = ChatGoogleGenerativeAI(
+        bad_model = ChatOpenAI(
             model=os.environ.get("AI_MODEL", "gemini-3.5-flash-lite"),
             api_key="invalid_key_12345",
         )
@@ -65,7 +65,7 @@ def error_examples():
 
     try:
         # Test with invalid key
-        bad_model = ChatGoogleGenerativeAI(
+        bad_model = ChatOpenAI(
             model=os.environ.get("AI_MODEL", "gemini-3.5-flash-lite"),
             api_key="invalid_key_12345",
         )

@@ -7,7 +7,7 @@ import os
 
 from dotenv import load_dotenv
 from langchain_core.messages import HumanMessage, SystemMessage
-from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_openai import ChatOpenAI
 
 load_dotenv()
 
@@ -15,7 +15,7 @@ load_dotenv()
 def main():
     print(" Understanding Message Types\n")
 
-    model = ChatGoogleGenerativeAI(
+    model = ChatOpenAI(
         model=os.getenv("AI_MODEL", "gemini-3.5-flash-lite"),
     )
 

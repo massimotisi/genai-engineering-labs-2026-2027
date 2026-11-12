@@ -7,7 +7,7 @@ import os
 from typing import Optional
 
 from dotenv import load_dotenv
-from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_openai import ChatOpenAI
 
 # Load environment variables
 load_dotenv()
@@ -20,7 +20,7 @@ def robust_chat(
     fallback_response: str = "I apologize, but I'm having trouble connecting right now. Please try again later.",
 ) -> str:
     """Makes a robust API call with automatic retry and fallback."""
-    model = ChatGoogleGenerativeAI(
+    model = ChatOpenAI(
         model=os.environ.get("AI_MODEL", "gemini-3.5-flash-lite")
     )
 
@@ -68,7 +68,7 @@ def test_robust_chat():
 
     # Test with invalid key by creating a bad model directly
     try:
-        bad_model = ChatGoogleGenerativeAI(
+        bad_model = ChatOpenAI(
             model=os.environ.get("AI_MODEL", "gemini-3.5-flash-lite"),
             api_key="invalid_key",
         )

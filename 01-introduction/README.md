@@ -56,7 +56,7 @@ pip install -r requirements.txt
 
 This will install all required packages including:
 
-- `langchain-google-genai` - Google Gemini model integration
+- `langchain-openai` - OpenAI-compatible chat model integration
 - `langchain-core` - Core LangChain functionality
 - `langchain` - Main LangChain package with additional utilities
 - `python-dotenv` - Environment variable management for API keys
@@ -90,14 +90,19 @@ Copy-Item .env.example .env
 
 #### Edit `.env` file
 
-Open `.env` in your text editor and add your Google AI API key:
+Open `.env` in your text editor and add your Google AI API key as
+`OPENAI_API_KEY`, so the OpenAI-compatible client can authenticate with Gemini:
 
 ```bash
-GOOGLE_API_KEY=your_google_ai_api_key
+OPENAI_API_KEY=your_google_ai_api_key
+OPENAI_BASE_URL=https://generativelanguage.googleapis.com/v1beta/openai/
 AI_MODEL=gemini-3.5-flash-lite
 ```
 
 The `AI_MODEL` setting is optional; it defaults to `gemini-3.5-flash-lite`.
+`OPENAI_BASE_URL` routes OpenAI-format requests to Google's Gemini API.
+If you already have an older `.env` file, rename `GOOGLE_API_KEY` to
+`OPENAI_API_KEY` and add the `OPENAI_BASE_URL` entry above.
 
 ## Test Your Setup
 
@@ -117,7 +122,7 @@ python 01-introduction/scripts/test_setup.py
  Testing AI provider connection...
 
  SUCCESS! Your AI provider is working!
-   Provider: Google Gemini API
+   Provider: Google Gemini API (OpenAI-compatible endpoint)
    Model: gemini-3.5-flash-lite
 
 Model response: Setup successful!
@@ -192,7 +197,7 @@ Let's walk through this step by step and then run the code:
 #### **Step 1: Import what we need**
 
 ```python
-from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_openai import ChatOpenAI
 from dotenv import load_dotenv
 import os
 
@@ -202,7 +207,7 @@ load_dotenv()
 #### **Step 2: Create the AI model**
 
 ```python
-model = ChatGoogleGenerativeAI(
+model = ChatOpenAI(
     model=os.getenv("AI_MODEL", "gemini-3.5-flash-lite")
 )
 ```
@@ -220,7 +225,7 @@ print(" AI Response:", response.text)
 **This is the full example code**:
 
 ```python
-from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_openai import ChatOpenAI
 from dotenv import load_dotenv
 import os
 
@@ -230,7 +235,7 @@ def main():
     print(" Hello LangChain!\n")
 
     # Create a chat model instance
-    model = ChatGoogleGenerativeAI(
+    model = ChatOpenAI(
         model=os.getenv("AI_MODEL", "gemini-3.5-flash-lite")
     )
 
@@ -259,20 +264,23 @@ When you run this example with `python 01-introduction/code/01_hello_world.py`, 
 ### How It Works
 
 #### **What's happening here?**
-1. We import `ChatGoogleGenerativeAI` from the `langchain_google_genai` package
-2. We create a model instance by instantiating `ChatGoogleGenerativeAI` with the model name
+1. We import `ChatOpenAI` from the `langchain_openai` package
+2. We create a model instance by instantiating `ChatOpenAI` with the model name
 3. We call `invoke()` with a simple string prompt, which is the standard way of getting a response from an LLM in LangChain.
 4. We get back a response with the LLM's answer
 
-#### **Understanding ChatGoogleGenerativeAI Configuration**:
+#### **Understanding ChatOpenAI Configuration**:
 
-The `ChatGoogleGenerativeAI` constructor takes the model name. It reads your API key from the `GOOGLE_API_KEY` environment variable.
+`ChatOpenAI` reads the model, key, and endpoint from the environment. Here,
+`OPENAI_API_KEY` contains your Google AI API key, and `OPENAI_BASE_URL` points
+to Google's OpenAI-compatible Gemini endpoint.
 
 The model name comes from `AI_MODEL` in your `.env` file.
 
 **Why use environment variables?**
 - `AI_MODEL` specifies which Gemini model to use
-- `GOOGLE_API_KEY` provides authentication credentials.
+- `OPENAI_API_KEY` provides your Google AI authentication credentials.
+- `OPENAI_BASE_URL` routes requests to Gemini's OpenAI-compatible endpoint.
 
 Storing the key in `.env` keeps it out of your source code and version control.
 
@@ -292,7 +300,7 @@ Let's see how to use SystemMessage and HumanMessage to control AI behavior and s
 **This is the full example code**:
 
 ```python
-from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_openai import ChatOpenAI
 from langchain_core.messages import HumanMessage, SystemMessage
 from dotenv import load_dotenv
 import os
@@ -302,7 +310,7 @@ load_dotenv()
 def main():
     print(" Understanding Message Types\n")
 
-    model = ChatGoogleGenerativeAI(
+    model = ChatOpenAI(
         model=os.getenv("AI_MODEL", "gemini-3.5-flash-lite")
     )
 
@@ -374,7 +382,7 @@ Let's see how to programmatically compare different models side-by-side.
 **This is the full example code**:
 
 ```python
-from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_openai import ChatOpenAI
 from dotenv import load_dotenv
 import os
 import time
@@ -391,7 +399,7 @@ def compare_models():
         print(f"\n Testing: {model_name}")
         print("─" * 50)
 
-        model = ChatGoogleGenerativeAI(model=model_name)
+        model = ChatOpenAI(model=model_name)
 
         start_time = time.time()
         response = model.invoke(prompt)
@@ -441,7 +449,7 @@ Response: Recursion is when a function calls itself to solve a problem by breaki
 #### **What's happening**:
 1. We define a single prompt asking about recursion
 2. We loop through a Gemma model and a Gemini model
-3. For each model, we create a new `ChatGoogleGenerativeAI` instance with that model name
+3. For each model, we create a new `ChatOpenAI` instance with that model name
 4. We invoke the same prompt on each model
 5. We display the response from each model for comparison
 

@@ -8,7 +8,7 @@ import sys
 import time
 
 from dotenv import load_dotenv
-from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_openai import ChatOpenAI
 
 # Load environment variables
 load_dotenv()
@@ -18,7 +18,7 @@ def non_streaming_example():
     print(" Non-Streaming (traditional way):\n")
 
     # Create a chat model instance
-    model = ChatGoogleGenerativeAI(
+    model = ChatOpenAI(
         model=os.getenv("AI_MODEL", "gemini-3.5-flash-lite"),
     )
 
@@ -35,7 +35,7 @@ def streaming_example():
     print("\n" + "=" * 80)
     print(" AI (streaming):")
 
-    model = ChatGoogleGenerativeAI(
+    model = ChatOpenAI(
         model=os.getenv("AI_MODEL", "gemini-3.5-flash-lite"),
     )
 

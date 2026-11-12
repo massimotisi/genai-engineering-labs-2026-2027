@@ -6,7 +6,7 @@ This example shows how to compare different AI models.
 import time
 
 from dotenv import load_dotenv
-from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_openai import ChatOpenAI
 
 load_dotenv()
 
@@ -21,7 +21,7 @@ def compare_models():
         print(f"\n Testing: {model_name}")
         print("─" * 50)
 
-        model = ChatGoogleGenerativeAI(
+        model = ChatOpenAI(
             model=model_name,
         )
 

@@ -102,7 +102,7 @@ response2 = model.invoke(messages)
 **Example code:**
 
 ```python
-from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_openai import ChatOpenAI
 from langchain_core.messages import HumanMessage, AIMessage, SystemMessage
 from dotenv import load_dotenv
 import os
@@ -112,7 +112,7 @@ load_dotenv()
 def main():
     print(" Multi-Turn Conversation Example\n")
 
-    model = ChatGoogleGenerativeAI(
+    model = ChatOpenAI(
         model=os.getenv("AI_MODEL", "gemini-3.5-flash-lite"),
     )
 
@@ -225,7 +225,7 @@ for chunk in model.stream("Explain how the internet works in 3 paragraphs."):
 > The actual file [`02_streaming.py`](./code/02_streaming.py) includes additional timing measurements and a comparison between streaming and non-streaming approaches to demonstrate the performance benefits. The code below shows the core streaming concept for clarity.
 
 ```python
-from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_openai import ChatOpenAI
 from dotenv import load_dotenv
 import os
 
@@ -236,7 +236,7 @@ def main():
 
     print(" AI (streaming):")
 
-    model = ChatGoogleGenerativeAI(
+    model = ChatOpenAI(
         model=os.getenv("AI_MODEL", "gemini-3.5-flash-lite")
     )
 
@@ -340,7 +340,7 @@ Limits response length:
 
 ### Example 3: Model Parameters
 
-Let's see how to control creativity by adjusting the `temperature` parameter and length of response by adjusting the `max_tokens` parameter in `ChatGoogleGenerativeAI`.
+Let's see how to control creativity by adjusting the `temperature` parameter and length of response by adjusting the `max_tokens` parameter in `ChatOpenAI` with Gemini's OpenAI-compatible endpoint.
 
 **Key code you'll work with:**
 
@@ -351,7 +351,7 @@ temperatures = [0, 1, 2]
 
 for temp in temperatures:
     # Create model with specific temperature
-    model = ChatGoogleGenerativeAI(
+    model = ChatOpenAI(
         model=os.getenv("AI_MODEL", "gemini-3.5-flash-lite"),
         temperature=temp,  # Controls randomness/creativity
         # ... other config
@@ -366,7 +366,7 @@ For max tokens:
 ```python
 for max_tokens in token_limits:
 
-    model = ChatGoogleGenerativeAI(
+    model = ChatOpenAI(
         model=os.getenv("AI_MODEL", "gemini-3.5-flash-lite"),
         max_tokens=max_tokens,
         # ... other config
@@ -382,7 +382,7 @@ for max_tokens in token_limits:
 **Example code:**
 
 ```python
-from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_openai import ChatOpenAI
 from dotenv import load_dotenv
 import os
 
@@ -396,7 +396,7 @@ def temperature_comparison():
         print(f"\n️ Temperature: {temp}")
         print("-" * 80)
 
-        model = ChatGoogleGenerativeAI(
+        model = ChatOpenAI(
             model=os.getenv("AI_MODEL", "gemini-3.5-flash-lite"),
             temperature=temp,
         )
@@ -493,23 +493,25 @@ LangChain provides `init_chat_model()` for provider-agnostic initialization. Thi
 
 ### Why Use init_chat_model()?
 
--  **Easy Provider Switching**: Change providers by updating a single string
+-  **Easy Provider Switching**: Change the model identifier and configure that provider's endpoint and credentials
 - ️ **Framework Building**: Create libraries that support many providers
 -  **Unified Interface**: Same code pattern works across all providers
 
-The project uses the `langchain-google-genai` integration. Add your `GOOGLE_API_KEY` to `.env`; no custom endpoint configuration is needed.
+The project uses `ChatOpenAI` with Gemini's OpenAI-compatible endpoint. Set
+`OPENAI_API_KEY` to your Google AI API key and `OPENAI_BASE_URL` to
+`https://generativelanguage.googleapis.com/v1beta/openai/` in `.env`.
 
 ### Example 4: Provider-Agnostic Initialization
 
-This example shows how to use `init_chat_model()` with Google Gemini for a clean, provider-agnostic approach.
+This example shows how to use `init_chat_model()` with Gemini through its OpenAI-compatible endpoint.
 
 **Key code you'll work with:**
 
 ```python
 from langchain.chat_models import init_chat_model
 
-# Initialize using the Google Gemini provider prefix
-model = init_chat_model("google_genai:gemini-3.5-flash-lite")
+# Initialize using the OpenAI-compatible provider prefix
+model = init_chat_model("openai:gemini-3.5-flash-lite")
 
 response = model.invoke("What is LangChain?")
 ```
@@ -527,10 +529,14 @@ import os
 load_dotenv()
 
 def main():
-    print(" Provider-Agnostic Initialization with Google Gemini\n")
+    print(" Provider-Agnostic Initialization with Gemini\n")
 
     model_name = os.getenv("AI_MODEL", "gemini-3.5-flash-lite")
-    model = init_chat_model(f"google_genai:{model_name}")
+    model = init_chat_model(
+        f"openai:{model_name}",
+        base_url=os.getenv("OPENAI_BASE_URL"),
+        api_key=os.getenv("OPENAI_API_KEY"),
+    )
     response = model.invoke("What is LangChain in one sentence?")
 
     print(" Response:", response.text)
@@ -554,10 +560,10 @@ When you run this example with `python 02-chat-models/code/04_init_chat_model.py
 language models, providing tools and abstractions for building chains, agents, 
 and retrieval systems.
 
-Switch providers by changing the model identifier:
+Switch providers by changing the model identifier and, when needed, the endpoint and credentials:
 
-  # Google Gemini (course default)
-  model = init_chat_model("google_genai:gemini-3.5-flash-lite")
+  # Google Gemini via the OpenAI-compatible endpoint (course default)
+  model = init_chat_model("openai:gemini-3.5-flash-lite")
 
   # OpenAI
   model = init_chat_model("openai:<model-name>")
@@ -572,18 +578,18 @@ Switch providers by changing the model identifier:
 
 **What's happening**:
 
-1. **Provider prefix**: Use `google_genai:<model_name>` to initialize a Google Gemini model
-2. **Credentials**: The integration reads `GOOGLE_API_KEY` from your environment
+1. **Provider prefix**: Use `openai:<model_name>` to initialize through LangChain's OpenAI-compatible integration
+2. **Credentials and endpoint**: `OPENAI_API_KEY` and `OPENAI_BASE_URL` configure the request; here they contain your Gemini key and Google's endpoint
 3. **Unified interface**: The same `invoke()` method works regardless of provider
-4. **Easy switching**: Change providers by updating the model string
+4. **Easy switching**: Change the model identifier and configure the endpoint and credentials for the chosen provider
 
-**Provider String Format**:
+**Provider String and Endpoint Configuration**:
 
-| Provider | Format | Example |
+| Service | Format | Endpoint and credentials |
 |----------|--------|--------|
-| Google Gemini | `google_genai:<model>` | `google_genai:gemini-3.5-flash-lite` |
-| OpenAI | `openai:<model>` | `openai:<model-name>` |
-| Anthropic | `anthropic:<model>` | `anthropic:<model-name>` |
+| Google Gemini (OpenAI-compatible API) | `openai:<model>` | Google endpoint and Gemini API key |
+| OpenAI | `openai:<model>` | OpenAI endpoint and OpenAI API key |
+| Anthropic | `anthropic:<model>` | Anthropic endpoint and API key |
 
 Each provider requires its own package and credentials; the model invocation pattern stays the same.
 
@@ -607,7 +613,7 @@ Instead of implementing manual retry logic, use LangChain's `with_retry()` metho
 **Key code you'll work with:**
 
 ```python
-model = ChatGoogleGenerativeAI(
+model = ChatOpenAI(
     model=os.getenv("AI_MODEL", "gemini-3.5-flash-lite"),
     # ... other config
 )
@@ -625,14 +631,14 @@ response = model_with_retry.invoke("What is LangChain?")
 **Example code:**
 
 ```python
-from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_openai import ChatOpenAI
 from dotenv import load_dotenv
 import os
 
 load_dotenv()
 
 def main():
-    model = ChatGoogleGenerativeAI(
+    model = ChatOpenAI(
         model=os.getenv("AI_MODEL", "gemini-3.5-flash-lite"),
     )
 
@@ -713,14 +719,14 @@ print(f"  Total tokens:      {usage.get('total_tokens')}")   # Total cost basis
 **Example code:**
 
 ```python
-from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_openai import ChatOpenAI
 from dotenv import load_dotenv
 import os
 
 load_dotenv()
 
 def track_token_usage():
-    model = ChatGoogleGenerativeAI(
+    model = ChatOpenAI(
         model=os.getenv("AI_MODEL", "gemini-3.5-flash-lite")
     )
 
@@ -795,7 +801,7 @@ Two key strategies to reduce token usage and costs:
 **1. Limit response length with max_tokens:**
 
 ```python
-model = ChatGoogleGenerativeAI(
+model = ChatOpenAI(
     model=os.getenv("AI_MODEL", "gemini-3.5-flash-lite"),
     max_tokens=1000  # Cap the response length
 )

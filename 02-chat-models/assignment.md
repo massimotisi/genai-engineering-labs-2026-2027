@@ -41,7 +41,7 @@ You: quit
 **Hints**:
 ```python
 # 1. Import required modules
-from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_openai import ChatOpenAI
 from langchain_core.messages import HumanMessage, AIMessage, SystemMessage
 from dotenv import load_dotenv
 import os
@@ -50,7 +50,7 @@ import os
 load_dotenv()
 
 # 3. Create the Gemini chat model
-model = ChatGoogleGenerativeAI(
+model = ChatOpenAI(
     model=os.environ.get("AI_MODEL", "gemini-3.5-flash-lite")
 )
 
@@ -116,7 +116,7 @@ Try 3: "Where Magic Meets Mocha"
 **Hints**:
 ```python
 # 1. Import required modules
-from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_openai import ChatOpenAI
 from dotenv import load_dotenv
 import os
 
