@@ -40,4 +40,5 @@ Thumbs.db
 # Jupyter Notebook
 .ipynb_checkpoints/
 
-*/solution/*
+01-introduction/solution/*
+02-chat-models/solution/*

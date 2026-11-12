@@ -2,11 +2,11 @@
 
 ## Overview
 
-Practice multi-turn conversations, streaming, parameters, and error handling to build robust AI applications.
+Practice multi-turn conversations, streaming and error handling to build robust AI applications.
 
 ---
 
-## Challenge: Interactive Chatbot 
+## Exercise: Interactive Chatbot 
 
 **Goal**: Build a chatbot that maintains conversation history across multiple exchanges.
 
@@ -17,7 +17,7 @@ Practice multi-turn conversations, streaming, parameters, and error handling to 
    - Maintains conversation history
    - Allows users to type "quit" to exit
    - Shows the conversation history length after each exchange
-3. Use a SystemMessage to give the bot a personality (you choose!)
+3. Use a SystemMessage to give the bot a personality
 
 **Example Interaction**:
 ```
@@ -73,75 +73,20 @@ messages = [
 
 ---
 
-## Bonus Challenge: Temperature Experiment ️
+## Bonus Exercise: Robust Interactive Chatbot 
 
-**Goal**: Understand how temperature affects AI creativity and consistency.
+Extend the chatbot of the previous exercise:
 
-**Tasks**:
-1. Create `temperature_lab.py`
-2. Test the same creative prompt with 5 different temperature values: 0, 0.5, 1, 1.5, 2
-3. Run each temperature 3 times to see variability
-4. Display results in a readable format
-5. Add your analysis of which temperature works best for different use cases
-
-**Creative Prompt Ideas**:
-- "Write a tagline for a coffee shop"
-- "Create a name for a tech startup"
-- "Suggest a title for a mystery novel"
-
-**Expected Output**:
-```
-️ Temperature: 0
-─────────────────────────────────────
-Try 1: "Brew Your Best Day"
-Try 2: "Brew Your Best Day"
-Try 3: "Brew Your Best Day"
-
-️ Temperature: 2
-─────────────────────────────────────
-Try 1: "Caffeinated Dreams Await"
-Try 2: "Sip the Extraordinary"
-Try 3: "Where Magic Meets Mocha"
-
- Analysis:
-- Temperature 0: Perfect for factual, consistent responses
-- Temperature 2: Great for creative brainstorming
-```
-
-**Success Criteria**:
-- Tests at least 5 temperature values
-- Shows variability clearly
-- Includes your analysis of results
-
-**Hints**:
-```python
-# 1. Import required modules
-from langchain_openai import ChatOpenAI
-from dotenv import load_dotenv
-import os
-
-# 2. Load environment variables
-load_dotenv()
-
-# 3. Define a list of temperature values to test [0, 0.5, 1, 1.5, 2]
-
-# 4. Define your creative prompt
-
-# 5. Loop through each temperature value:
-#    - Create a NEW model instance with that temperature
-#    - Run 3 trials with the same prompt
-#    - Display the results for each trial
-
-# 6. Add your analysis comparing the different temperature results
-```
+* Add streaming to the chatbot responses
+* Add error handling to gracefully manage rate limits
 
 ---
 
 ## Solutions
 
-Solutions for all challenges will be available in the [`solution/`](./solution/) folder. Try to complete the challenges on your own first!
+Solutions for all exercises will be available in the [`solution/`](./solution/) folder.
 
-**Additional Examples**: Check out the [`samples/`](./samples/) folder for more example solutions covering streaming, error handling, and token tracking!
+**Additional Examples**: Check out the [`samples/`](./samples/) folder for more example solutions covering streaming, error handling, and token tracking.
 
 ---
 

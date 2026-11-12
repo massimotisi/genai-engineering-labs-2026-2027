@@ -806,7 +806,8 @@ Ready to practice? Complete the exercises in [assignment.md](./assignment.md)
 The assignment includes:
 
 1. **Multi-Turn Chatbot** - Build a conversational bot with history
-2. **Temperature Experiment** (Bonus) - Compare creativity at different settings
+1. **Robust Multi-Turn Chatbot** - Build a conversational bot with history, streaming and error handling
+
 
 ---
 
