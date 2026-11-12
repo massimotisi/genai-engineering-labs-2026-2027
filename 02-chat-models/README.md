@@ -746,8 +746,6 @@ data science, machine learning, and automation.
 
 1. **Make API call**: Send a prompt to the model
 2. **Extract metadata**: Get `response.usage_metadata`
-3. **Calculate costs**: Multiply tokens by provider rates
-4. **Track spending**: Monitor costs per request
 
 **Key insights**:
 
@@ -787,30 +785,12 @@ response = model.invoke(recent_messages)
 
 ---
 
-## ️ Concept Map
-
-This lab covered the essential building blocks for creating interactive AI conversations:
-
-```mermaid
-graph LR
-    A[Chat Models] --> B[Multi-Turn]
-    A --> C[Streaming]
-    A --> D[Parameters]
-    A --> E[Provider-Agnostic]
-    A --> F[Error Handling]
-    A --> G[Token Tracking]
-```
-
-*Master these concepts to build robust AI applications.*
-
----
-
 ##  Key Takeaways
 
 - **Multi-turn conversations**: Send entire message history with each call
 - **Streaming**: Display responses as they generate for better UX
 - **Temperature**: Controls randomness (0 = consistent, 2 = creative)
-- **Provider-agnostic**: Use `init_chat_model()` with `langchain-azure-ai` to easily switch providers
+- **Provider-agnostic**: Use `init_chat_model()` to easily switch providers
 - **Error handling**: Always use try-except and implement retries
 - **Token tracking**: Monitor usage and estimate costs for budgeting
 - **Cost optimization**: Choose right models, limit responses, cache results
@@ -821,7 +801,7 @@ graph LR
 
 ##  Assignment
 
-Ready to practice? Complete the challenges in [assignment.md](./assignment.md)!
+Ready to practice? Complete the exercises in [assignment.md](./assignment.md)
 
 The assignment includes:
 
@@ -836,4 +816,4 @@ The assignment includes:
 - [Streaming Guide](https://python.langchain.com/docs/how_to/streaming/)
 - [Model Parameters](https://platform.openai.com/docs/api-reference/chat/create)
 
- **Want more examples?** Check out the [samples/](./samples) folder for additional code examples including streaming responses, error handling, and token tracking!
+ **Want more examples?** Check out the [samples/](./samples) folder for additional code examples including streaming responses, error handling, and token tracking
