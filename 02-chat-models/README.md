@@ -40,8 +40,6 @@ LangChain provides three core message types for building conversations:
 | **HumanMessage** | User input and questions | `HumanMessage(content="What is Python?")` |
 | **AIMessage** | AI responses with metadata | Returned by `model.invoke()` with `content`, `usage_metadata`, `id` |
 
-> ** Looking ahead:** In [Prompts, Messages, and Structured Outputs](../03-prompts-messages-outputs/README.md), you'll learn when to use messages vs templates and additional construction patterns for building agents.
-
 ---
 
 ### Creating Messages
@@ -64,7 +62,7 @@ messages = [
 -  **Better autocomplete** - Your editor helps you write code faster
 -  **Consistent pattern** - Same approach used throughout the course
 
-> ** Other ways exist:** LangChain also supports dictionary format (`{"role": "system", "content": "..."}`) and string shortcuts for simple cases. You'll learn about these alternative syntaxes and when to use each approach in [Prompts, Messages, and Structured Outputs](../03-prompts-messages-outputs/README.md).
+> ** Other ways exist:** LangChain also supports dictionary format (`{"role": "system", "content": "..."}`) and string shortcuts for simple cases.
 
 ---
 
@@ -194,14 +192,6 @@ Notice how each response references the previous context - the AI "remembers" be
 
 When you ask a complex question, waiting for the entire response can feel slow. Streaming sends the response word-by-word as it's generated.
 
-**Like watching a friend think out loud** instead of waiting for them to finish their entire thought.
-
-**You're building a chatbot where users ask complex questions.** With regular responses, users stare at a blank screen for 5-10 seconds wondering if anything is happening. With streaming, they see words appearing immediately—just like ChatGPT—which feels much more responsive even if the total time is the same.
-
-<img src="images/streaming-comparison.png" alt="Streaming vs Non-Streaming" width="800"/>
-
-*Non-streaming shows the full response at once after waiting, while streaming displays words progressively for better UX*
-
 ### Example 2: Streaming
 
 Let's see how to use `.stream()` instead of `.invoke()` to display responses as they're generated.
@@ -267,8 +257,6 @@ On top of this physical and routing layer are standard communication rules, or p
 
 You'll notice the text appears progressively, word by word, rather than all at once!
 
-### How It Works
-
 **What's happening**:
 
 1. We call `model.stream()` instead of `model.invoke()`
@@ -276,22 +264,6 @@ You'll notice the text appears progressively, word by word, rather than all at o
 3. We loop through each chunk with a for loop
 4. Each chunk contains a piece of the response (usually a few words)
 5. We use `flush=True` to display text immediately, creating the streaming effect
-
-**Benefits of Streaming**:
-
-- Better user experience (immediate feedback)
-- Feels more responsive - users see progress immediately
-- Users can start reading while AI generates the rest
-- Perceived performance improvement even if total time is the same
-
-**When to Use**:
-
--  Long responses (articles, explanations, code)
--  User-facing chatbots and interactive applications
--  When you want to display progress to users
--  When you need the full response first (parsing, validation, post-processing)
-
-> ** Bonus**: To track token usage with streaming, some providers support including usage metadata in the final chunk. This is provider-dependent - check your provider's documentation for availability.
 
 ---
 
@@ -340,7 +312,7 @@ Limits response length:
 
 ### Example 3: Model Parameters
 
-Let's see how to control creativity by adjusting the `temperature` parameter and length of response by adjusting the `max_tokens` parameter in `ChatOpenAI` with Gemini's OpenAI-compatible endpoint.
+Let's see how to control creativity by adjusting the `temperature` parameter and length of response by adjusting the `max_tokens` parameter in `ChatOpenAI`.
 
 **Key code you'll work with:**
 
@@ -453,7 +425,7 @@ When you run this example with `python 02-chat-models/code/03_parameters.py`, th
 ️ Temperature: 0
 ────────────────────────────────────────────────────────────
   ️  This model doesn't support temperature=0. Skipping...
-  �� Error: 400 Unsupported value: 'temperature' does not support 0 with this model.
+  Error: 400 Unsupported value: 'temperature' does not support 0 with this model.
 
 ️ Temperature: 1
 ────────────────────────────────────────────────────────────

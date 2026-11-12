@@ -39,7 +39,9 @@ def temperature_comparison():
             # Some models may not support certain temperature values
             error_msg = str(error)
             if "temperature" in error_msg.lower():
-                print(f"  ️  This model doesn't support temperature={temp}. Skipping...")
+                print(
+                    f"  ️  This model doesn't support temperature={temp}. Skipping..."
+                )
                 print(f"   Error: {error_msg}")
             else:
                 # Re-raise unexpected errors
@@ -61,7 +63,7 @@ def max_tokens_example():
     # Gemini 3 models can use tokens internally for reasoning, in addition
     # to the tokens visible in the generated response.
     is_ci = os.environ.get("CI") == "true"
-    token_limits = [1000] if is_ci else [800, 1500, 3000]  # Higher for reasoning models
+    token_limits = [1000] if is_ci else [50, 500, 5000]  # Higher for reasoning models
 
     for max_tokens in token_limits:
         print(f"\nMax Tokens: {max_tokens}")
