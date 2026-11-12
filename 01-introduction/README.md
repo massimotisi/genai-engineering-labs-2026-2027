@@ -264,10 +264,6 @@ When you run this example with `python 01-introduction/code/01_hello_world.py`, 
 3. We call `invoke()` with a simple string prompt, which is the standard way of getting a response from an LLM in LangChain.
 4. We get back a response with the LLM's answer
 
-<img src="images/first-llm-call-flow.png" alt="First LLM Call Flow" width="800"/>
-
-*The flow of your first LLM call - from creating a model instance to receiving a response*
-
 #### **Understanding ChatGoogleGenerativeAI Configuration**:
 
 The `ChatGoogleGenerativeAI` constructor takes the model name. It reads your API key from the `GOOGLE_API_KEY` environment variable.
@@ -312,7 +308,7 @@ def main():
 
     # Using structured messages for better control
     messages = [
-        SystemMessage(content="You are a helpful AI assistant who explains things to a 10-year-old."),
+        SystemMessage(content="You are a helpful AI assistant who explains things like he was talking to a 10-year-old."),
         HumanMessage(content="Explain quantum computing."),
     ]
 
@@ -348,7 +344,7 @@ Quantum computing is like having a super-fast magic box that can try many differ
 - **AIMessage**: The AI's responses (usually added automatically)
 
 #### **What's happening**:
-1. The SystemMessage tells the AI to explain things simply (like to a beginner)
+1. The SystemMessage tells the AI to explain things simply
 2. The HumanMessage contains the user's question about quantum computing
 3. The AI crafts a response that matches the system instruction (simple explanation)
 4. Because we set the personality in the SystemMessage, the response is age-appropriate and clear.
