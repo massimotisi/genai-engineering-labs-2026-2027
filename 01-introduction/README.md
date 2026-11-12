@@ -362,11 +362,11 @@ Quantum computing is like having a super-fast magic box that can try many differ
 
 ##  Comparing Models
 
-Google AI provides multiple Gemini models. Let's compare them!
+Google AI provides Gemini and Gemma models. Let's compare them!
 
-**You're building an app and need to choose which model to use.** Compare `gemini-3.8-flash` with `gemini-3.5-flash-lite` for capability, speed, and cost.
+**You're building an app and need to choose which model to use.** Compare `gemma-4-26b-a4b-it` with `gemini-3.5-flash-lite` by testing their responses and measuring latency.
 
-Think of it like choosing between calculators: a scientific calculator handles complex equations but takes more time and resources, while a basic calculator is fast and efficient for simple math. The best way to decide is to test both with your actual prompts and compare their responses.
+The best way to decide is to test both with prompts from your application and compare their responses and measured latency.
 
 ### Example 3: Model Comparison
 
@@ -389,7 +389,7 @@ def compare_models():
     print(" Comparing AI Models\n")
 
     prompt = "Explain recursion in programming in one sentence."
-    models = ["gemini-3.8-flash", "gemini-3.5-flash-lite"]
+    models = ["gemma-4-26b-a4b-it", "gemini-3.5-flash-lite"]
 
     for model_name in models:
         print(f"\n Testing: {model_name}")
@@ -406,9 +406,8 @@ def compare_models():
 
     print("\n Comparison complete!")
     print("\n Key Observations:")
-    print("   - gemini-3.8-flash is Google's higher-capability Flash model")
-    print("   - gemini-3.5-flash-lite is optimized for speed and efficiency")
-    print("   - Choose based on your needs: speed vs. capability")
+    print("   - Compare the models' responses and measured latency")
+    print("   - Choose based on your application's needs")
 
 if __name__ == "__main__":
     compare_models()
@@ -422,7 +421,7 @@ When you run this example with `python 01-introduction/code/03_model_comparison.
  Comparing AI Models
 
 
- Testing: gemini-3.8-flash
+ Testing: gemma-4-26b-a4b-it
 ──────────────────────────────────────────────────
 Response: Recursion in programming is a technique where a function calls itself to solve smaller instances of the same problem until it reaches a base case.
 ️  Time: 2134ms
@@ -435,9 +434,8 @@ Response: Recursion is when a function calls itself to solve a problem by breaki
  Comparison complete!
 
  Key Observations:
-   - gemini-3.8-flash is Google's higher-capability Flash model
-   - gemini-3.5-flash-lite is optimized for speed and efficiency
-   - Choose based on your needs: speed vs. capability
+   - Compare the models' responses and measured latency
+   - Choose based on your application's needs
 ```
 
 > **Note**: Your LLM's response may vary slightly from this example, and timing will depend on your network connection and API load.
@@ -446,16 +444,15 @@ Response: Recursion is when a function calls itself to solve a problem by breaki
 
 #### **What's happening**:
 1. We define a single prompt asking about recursion
-2. We loop through two different Gemini models
+2. We loop through a Gemma model and a Gemini model
 3. For each model, we create a new `ChatGoogleGenerativeAI` instance with that model name
 4. We invoke the same prompt on each model
 5. We display the response from each model for comparison
 
 #### **What you'll notice**:
 - Different models have different response styles
-- `gemini-3.8-flash` is a higher-capability model
-- `gemini-3.5-flash-lite` is designed for speed and efficiency
-- Both answers are correct, just expressed differently
+- Responses and latency may differ between models
+- Compare actual results for your own prompts and use case
 
 ---
 

@@ -15,7 +15,7 @@ def compare_models():
     print(" Comparing AI Models\n")
 
     prompt = "Explain recursion in programming in one sentence."
-    models = ["gemini-3.8-flash", "gemini-3.5-flash-lite"]
+    models = ["gemma-4-26b-a4b-it", "gemini-3.5-flash-lite"]
 
     for model_name in models:
         print(f"\n Testing: {model_name}")
@@ -34,9 +34,8 @@ def compare_models():
 
     print("\n Comparison complete!")
     print("\n Key Observations:")
-    print("   - gemini-3.8-flash is Google's higher-capability Flash model")
-    print("   - gemini-3.5-flash-lite is optimized for speed and efficiency")
-    print("   - Choose based on your needs: speed vs. capability")
+    print("   - Compare the models' responses and measured latency")
+    print("   - Choose based on your application's needs")
 
 
 if __name__ == "__main__":

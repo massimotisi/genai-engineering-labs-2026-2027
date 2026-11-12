@@ -59,8 +59,8 @@ load_dotenv()
 
 **Tasks**:
 1. Create a file called `model_performance.py`
-2. Test at least 2 Gemini models:
-   - `gemini-3.8-flash`
+2. Test at least 2 Google models:
+   - `gemma-4-26b-a4b-it`
    - `gemini-3.5-flash-lite`
 3. For each model, measure:
    - Response time
@@ -77,7 +77,7 @@ load_dotenv()
 Model          | Time    | Length | Quality
 ─────────────────────────────────────────────
 gemini-3.5-flash-lite | 567ms   | 234ch  |
-gemini-3.8-flash      | 1234ms  | 456ch  |
+gemma-4-26b-a4b-it    | 1234ms  | 456ch  |
 ```
 
 **Success Criteria**:
@@ -99,7 +99,7 @@ load_dotenv()
 question = "Explain the difference between machine learning and deep learning."
 
 models = [
-    {"name": "gemini-3.8-flash", "description": "Higher capability"},
+    {"name": "gemma-4-26b-a4b-it", "description": "Gemma 4 instruction-tuned"},
     {"name": "gemini-3.5-flash-lite", "description": "Fast and efficient"},
 ]
 
