@@ -469,10 +469,6 @@ LangChain provides `init_chat_model()` for provider-agnostic initialization. Thi
 - ️ **Framework Building**: Create libraries that support many providers
 -  **Unified Interface**: Same code pattern works across all providers
 
-The project uses `ChatOpenAI` with Gemini's OpenAI-compatible endpoint. Set
-`OPENAI_API_KEY` to your Google AI API key and `OPENAI_BASE_URL` to
-`https://generativelanguage.googleapis.com/v1beta/openai/` in `.env`.
-
 ### Example 4: Provider-Agnostic Initialization
 
 This example shows how to use `init_chat_model()` with Gemini through its OpenAI-compatible endpoint.

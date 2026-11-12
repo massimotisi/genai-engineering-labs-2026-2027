@@ -34,13 +34,13 @@ def gemini_example():
 def switching_providers_concept():
     """Show how init_chat_model() enables provider switching."""
     print("\nSwitch providers by changing the model identifier and configuration:\n")
-    print('  # Google Gemini via its OpenAI-compatible endpoint (course default)')
+    print("  # Google Gemini via its OpenAI-compatible endpoint (course default)")
     print('  model = init_chat_model("openai:gemini-3.5-flash-lite", base_url=...)')
     print()
-    print('  # OpenAI')
+    print("  # OpenAI")
     print('  model = init_chat_model("openai:<model-name>")')
     print()
-    print('  # Anthropic')
+    print("  # Anthropic")
     print('  model = init_chat_model("anthropic:<model-name>")')
     print("\nThe invoke() interface stays the same across providers.")
 

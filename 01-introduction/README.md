@@ -482,7 +482,7 @@ Let's review what you learned:
 
 ##  Assignment
 
-Complete the exercises in [assignment.md](./assignment.md)!
+Complete the exercises in [assignment.md](./assignment.md)
 
 The assignment includes:
 1. **System Prompts Experiment** - Learn how SystemMessage affects AI behavior
