@@ -6,14 +6,14 @@ Run: python 02-chat-models/code/03_parameters.py
 import os
 
 from dotenv import load_dotenv
-from langchain_openai import ChatOpenAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 
 # Load environment variables
 load_dotenv()
 
 
 def temperature_comparison():
-    model_name = os.environ.get("AI_MODEL", "gpt-5-mini")
+    model_name = os.environ.get("AI_MODEL", "gemini-3.5-flash-lite")
     print(f"️  Temperature Comparison for {model_name}\n")
     print("=" * 80)
 
@@ -26,17 +26,15 @@ def temperature_comparison():
         print(f"\nTemperature: {temp}")
         print("-" * 80)
 
-        model = ChatOpenAI(
+        model = ChatGoogleGenerativeAI(
             model=model_name,
             temperature=temp,
-            base_url=os.getenv("AI_ENDPOINT"),
-            api_key=os.getenv("AI_API_KEY"),
         )
 
         try:
             for i in range(1, tries + 1):
                 response = model.invoke(prompt)
-                print(f"  Try {i}: {response.content}")
+                print(f"  Try {i}: {response.text}")
         except Exception as error:
             # Some models may not support certain temperature values
             error_msg = str(error)
@@ -60,9 +58,8 @@ def max_tokens_example():
 
     prompt = "Write a detailed explanation of machine learning in 5 paragraphs."
 
-    # Note: Reasoning models (like gpt-5-mini) use tokens internally for
-    # "chain of thought" reasoning before producing visible output. They need higher
-    # limits (500+) to have tokens left for the actual response.
+    # Gemini 3 models can use tokens internally for reasoning, in addition
+    # to the tokens visible in the generated response.
     is_ci = os.environ.get("CI") == "true"
     token_limits = [1000] if is_ci else [800, 1500, 3000]  # Higher for reasoning models
 
@@ -70,17 +67,15 @@ def max_tokens_example():
         print(f"\nMax Tokens: {max_tokens}")
         print("-" * 80)
 
-        model = ChatOpenAI(
-            model=os.getenv("AI_MODEL"),
+        model = ChatGoogleGenerativeAI(
+            model=os.getenv("AI_MODEL", "gemini-3.5-flash-lite"),
             max_tokens=max_tokens,
-            base_url=os.getenv("AI_ENDPOINT"),
-            api_key=os.getenv("AI_API_KEY"),
         )
 
         try:
             response = model.invoke(prompt)
-            print(response.content)
-            print(f"\n(Character count: {len(str(response.content))})")
+            print(response.text)
+            print(f"\n(Character count: {len(response.text)})")
         except Exception as error:
             error_msg = str(error)
             if "max_tokens" in error_msg.lower():

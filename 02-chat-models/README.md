@@ -89,7 +89,7 @@ messages = [
 
 # Get AI response and add it to history
 response1 = model.invoke(messages)
-messages.append(AIMessage(content=response1.content))
+messages.append(AIMessage(content=response1.text))
 
 # Continue the conversation - AI remembers context
 messages.append(HumanMessage(content="Can you show me a simple example?"))
@@ -102,7 +102,7 @@ response2 = model.invoke(messages)
 **Example code:**
 
 ```python
-from langchain_openai import ChatOpenAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.messages import HumanMessage, AIMessage, SystemMessage
 from dotenv import load_dotenv
 import os
@@ -112,10 +112,8 @@ load_dotenv()
 def main():
     print(" Multi-Turn Conversation Example\n")
 
-    model = ChatOpenAI(
-        model=os.getenv("AI_MODEL"),
-        base_url=os.getenv("AI_ENDPOINT"),
-        api_key=os.getenv("AI_API_KEY"),
+    model = ChatGoogleGenerativeAI(
+        model=os.getenv("AI_MODEL", "gemini-3.5-flash-lite"),
     )
 
     # Start with system message and first question
@@ -128,16 +126,16 @@ def main():
 
     # First exchange
     response1 = model.invoke(messages)
-    print("\n AI:", response1.content)
-    messages.append(AIMessage(content=response1.content))
+    print("\n AI:", response1.text)
+    messages.append(AIMessage(content=response1.text))
 
     # Second exchange - AI remembers the context
     print("\n User: Can you show me a simple example?")
     messages.append(HumanMessage(content="Can you show me a simple example?"))
 
     response2 = model.invoke(messages)
-    messages.append(AIMessage(content=response2.content))
-    print("\n AI:", response2.content)
+    messages.append(AIMessage(content=response2.text))
+    print("\n AI:", response2.text)
 
     # Third exchange - AI still remembers everything
     print("\n User: What are the benefits compared to other languages?")
@@ -145,7 +143,7 @@ def main():
 
     # the 3rd AI response is not added to conversation history since it is the last in the conversation
     response3 = model.invoke(messages)
-    print("\n AI:", response3.content)
+    print("\n AI:", response3.text)
 
     print("\n\n Notice how the AI maintains context throughout the conversation!")
     print(f" Total messages in history: {len(messages)} messages, that include 1 system message, 3 Human messages and 2 AI responses")
@@ -215,7 +213,7 @@ When streaming a response we use this format in python
 ```python
 # Stream the response instead of waiting for it all at once
 for chunk in model.stream("Explain how the internet works in 3 paragraphs."):
-    print(chunk.content, end="", flush=True)  # Display immediately without newline
+    print(chunk.text, end="", flush=True)  # Display immediately without newline
 ```
 
 **Code**: [`code/02_streaming.py`](./code/02_streaming.py)  
@@ -227,7 +225,7 @@ for chunk in model.stream("Explain how the internet works in 3 paragraphs."):
 > The actual file [`02_streaming.py`](./code/02_streaming.py) includes additional timing measurements and a comparison between streaming and non-streaming approaches to demonstrate the performance benefits. The code below shows the core streaming concept for clarity.
 
 ```python
-from langchain_openai import ChatOpenAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 from dotenv import load_dotenv
 import os
 
@@ -238,16 +236,14 @@ def main():
 
     print(" AI (streaming):")
 
-    model = ChatOpenAI(
-        model=os.getenv("AI_MODEL"),
-        base_url=os.getenv("AI_ENDPOINT"),
-        api_key=os.getenv("AI_API_KEY")
+    model = ChatGoogleGenerativeAI(
+        model=os.getenv("AI_MODEL", "gemini-3.5-flash-lite")
     )
 
     # Stream the response chunk by chunk
     for chunk in model.stream("Explain how the internet works in 2 paragraphs."):
         # Write each chunk as it arrives (no newline)
-        print(chunk.content, end="", flush=True) 
+        print(chunk.text, end="", flush=True)
 
     print("\n\n Stream complete!")
 
@@ -318,7 +314,7 @@ Temperature controls randomness and creativity:
 
 > **️ Provider and Model Differences**:
 >
-> - **GitHub Models (OpenAI)**: Supports 0.0 to 2.0 for most models
+> - **Gemini 3 models**: Use temperature `1.0` by default; lower values can degrade reasoning quality
 
 > - **Some models**: May only support the default temperature value (1) and reject other values
 >
@@ -344,7 +340,7 @@ Limits response length:
 
 ### Example 3: Model Parameters
 
-Let's see how to control creativity by adjusting the `temperature` parameter and legnth of response by adjusting the `max_tokens` parameter in `ChatOpenAI`.
+Let's see how to control creativity by adjusting the `temperature` parameter and length of response by adjusting the `max_tokens` parameter in `ChatGoogleGenerativeAI`.
 
 **Key code you'll work with:**
 
@@ -355,8 +351,8 @@ temperatures = [0, 1, 2]
 
 for temp in temperatures:
     # Create model with specific temperature
-    model = ChatOpenAI(
-        model=os.getenv("AI_MODEL"),
+    model = ChatGoogleGenerativeAI(
+        model=os.getenv("AI_MODEL", "gemini-3.5-flash-lite"),
         temperature=temp,  # Controls randomness/creativity
         # ... other config
     )
@@ -370,8 +366,8 @@ For max tokens:
 ```python
 for max_tokens in token_limits:
 
-    model = ChatOpenAI(
-        model=os.getenv("AI_MODEL"),
+    model = ChatGoogleGenerativeAI(
+        model=os.getenv("AI_MODEL", "gemini-3.5-flash-lite"),
         max_tokens=max_tokens,
         # ... other config
     )
@@ -386,7 +382,7 @@ for max_tokens in token_limits:
 **Example code:**
 
 ```python
-from langchain_openai import ChatOpenAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 from dotenv import load_dotenv
 import os
 
@@ -400,17 +396,15 @@ def temperature_comparison():
         print(f"\n️ Temperature: {temp}")
         print("-" * 80)
 
-        model = ChatOpenAI(
-            model=os.getenv("AI_MODEL"),
-            base_url=os.getenv("AI_ENDPOINT"),
-            api_key=os.getenv("AI_API_KEY"),
+        model = ChatGoogleGenerativeAI(
+            model=os.getenv("AI_MODEL", "gemini-3.5-flash-lite"),
             temperature=temp,
         )
 
         try:
             for i in range(1, 3):
                 response = model.invoke(prompt)
-                print(f"  Try {i}: {response.content}")
+                print(f"  Try {i}: {response.text}")
         except Exception as e:
             # Some models may not support certain temperature values
             print(f"  ️  This model doesn't support temperature={temp}. Skipping...")
@@ -453,7 +447,7 @@ When you run this example with `python 02-chat-models/code/03_parameters.py`, th
    - Higher values (1.5-2.0): More creative and varied responses
 ```
 
-**With a model that only supports default temperature (like gpt-4-mini):**
+**With a model that only supports its default temperature:**
 
 ```bash
 ️ Temperature: 0
@@ -503,39 +497,19 @@ LangChain provides `init_chat_model()` for provider-agnostic initialization. Thi
 - ️ **Framework Building**: Create libraries that support many providers
 -  **Unified Interface**: Same code pattern works across all providers
 
-### Setting Up LangChain Azure AI
-
-For GitHub Models, use the `langchain-azure-ai` package. This package has already been installed in your dev environment with the requirements.txt file but this is the command you would run to install it seperately:
-
-```bash
-pip install langchain-azure-ai
-```
-
-**Endpoint Format**:
-
-The `\models` endpoint is required when using LangChain Azure AI. 
-
-| Provider | Endpoint Format | Example |
-|----------|-----------------|---------|
-| GitHub Models | Works as-is | `https://models.inference.ai.azure.com` |
-
-> **️ Note**: LangChain Azure AI expects the `/models` endpoint format, not `/openai/v1`. The example code automatically converts `/openai/v1` endpoints to `/models` format if needed. For GitHub Models users, no conversion is needed since the endpoint is already in the correct format.
+The project uses the `langchain-google-genai` integration. Add your `GOOGLE_API_KEY` to `.env`; no custom endpoint configuration is needed.
 
 ### Example 4: Provider-Agnostic Initialization
 
-This example shows how to use `init_chat_model()` with Azure AI for a clean, provider-agnostic approach.
+This example shows how to use `init_chat_model()` with Google Gemini for a clean, provider-agnostic approach.
 
 **Key code you'll work with:**
 
 ```python
 from langchain.chat_models import init_chat_model
 
-# Set environment variables for Azure AI
-os.environ["AZURE_AI_ENDPOINT"] = os.getenv("AI_ENDPOINT")
-os.environ["AZURE_AI_CREDENTIAL"] = os.getenv("AI_API_KEY")
-
-# Initialize using azure_ai provider prefix
-model = init_chat_model("azure_ai:gpt-5-mini")
+# Initialize using the Google Gemini provider prefix
+model = init_chat_model("google_genai:gemini-3.5-flash-lite")
 
 response = model.invoke("What is LangChain?")
 ```
@@ -547,29 +521,19 @@ response = model.invoke("What is LangChain?")
 
 ```python
 from langchain.chat_models import init_chat_model
-from langchain_core.messages import HumanMessage
 from dotenv import load_dotenv
 import os
 
 load_dotenv()
 
 def main():
-    print(" Provider-Agnostic Initialization with Azure AI\n")
+    print(" Provider-Agnostic Initialization with Google Gemini\n")
 
-    # Set environment variables required by LangChain Azure AI
-    os.environ["AZURE_AI_ENDPOINT"] = os.getenv("AI_ENDPOINT", "")
-    os.environ["AZURE_AI_CREDENTIAL"] = os.getenv("AI_API_KEY", "")
+    model_name = os.getenv("AI_MODEL", "gemini-3.5-flash-lite")
+    model = init_chat_model(f"google_genai:{model_name}")
+    response = model.invoke("What is LangChain in one sentence?")
 
-    model_name = os.getenv("AI_MODEL", "gpt-5-mini")
-
-    # Initialize model using the azure_ai provider prefix
-    model = init_chat_model(f"azure_ai:{model_name}")
-
-    response = model.invoke([
-        HumanMessage(content="What is LangChain in one sentence?")
-    ])
-
-    print(" Response:", response.content)
+    print(" Response:", response.text)
 
 if __name__ == "__main__":
     main()
@@ -580,59 +544,48 @@ if __name__ == "__main__":
 When you run this example with `python 02-chat-models/code/04_init_chat_model.py`, you'll see:
 
 ```bash
- Provider-Agnostic Initialization with LangChain Azure AI
+ Provider-Agnostic Initialization with LangChain
 
 ============================================================
 
-=== init_chat_model() with Azure AI ===
-
- Note: Converted endpoint from /openai/v1 to /models format
- Using endpoint: https://your-resource.openai.azure.com/models
- Using model: gpt-5-mini
+ Using model: gemini-3.5-flash-lite
 
  Response: LangChain is a framework for developing applications powered by 
 language models, providing tools and abstractions for building chains, agents, 
 and retrieval systems.
 
-=== Provider Switching Concepts ===
+Switch providers by changing the model identifier:
 
-init_chat_model() makes switching between providers simple:
+  # Google Gemini (course default)
+  model = init_chat_model("google_genai:gemini-3.5-flash-lite")
 
-  # Azure AI (recommended for this course)
-  model = init_chat_model("azure_ai:gpt-5-mini")
-
-  # Standard OpenAI
-  model = init_chat_model("openai:gpt-5-mini")
+  # OpenAI
+  model = init_chat_model("openai:<model-name>")
 
   # Anthropic
-  model = init_chat_model("anthropic:claude-3-5-sonnet-20241022")
+  model = init_chat_model("anthropic:<model-name>")
 
-  # Google
-  model = init_chat_model("google-genai:gemini-pro")
-
- Same interface, different providers - just change the model string!
+ The invoke() interface stays the same across providers.
 ```
 
 ### How It Works
 
 **What's happening**:
 
-1. **Endpoint conversion**: If your endpoint ends with `/openai/v1`, it's automatically converted to `/models`
-2. **Environment setup**: Set `AZURE_AI_ENDPOINT` and `AZURE_AI_CREDENTIAL` from your `.env` file
-3. **Provider prefix**: Use `azure_ai:<model_name>` format to specify Azure AI provider
-4. **Unified interface**: Same `invoke()` method works regardless of provider
-5. **Easy switching**: Change providers by updating the model string
+1. **Provider prefix**: Use `google_genai:<model_name>` to initialize a Google Gemini model
+2. **Credentials**: The integration reads `GOOGLE_API_KEY` from your environment
+3. **Unified interface**: The same `invoke()` method works regardless of provider
+4. **Easy switching**: Change providers by updating the model string
 
 **Provider String Format**:
 
 | Provider | Format | Example |
 |----------|--------|--------|
-| Azure AI | `azure_ai:<model>` | `azure_ai:gpt-5-mini` |
-| OpenAI | `openai:<model>` | `openai:gpt-4` |
-| Anthropic | `anthropic:<model>` | `anthropic:claude-3-5-sonnet` |
-| Google | `google-genai:<model>` | `google-genai:gemini-pro` |
+| Google Gemini | `google_genai:<model>` | `google_genai:gemini-3.5-flash-lite` |
+| OpenAI | `openai:<model>` | `openai:<model-name>` |
+| Anthropic | `anthropic:<model>` | `anthropic:<model-name>` |
 
-GitHub models provides built-in access to the OpenAI, Anthropic, DeepSeek, Qwen, Mistral models and more! Just change the name of the model you are using `azure_ai:claude-4-5-sonnet`
+Each provider requires its own package and credentials; the model invocation pattern stays the same.
 
 ---
 
@@ -654,8 +607,8 @@ Instead of implementing manual retry logic, use LangChain's `with_retry()` metho
 **Key code you'll work with:**
 
 ```python
-model = ChatOpenAI(
-    model=os.getenv("AI_MODEL"),
+model = ChatGoogleGenerativeAI(
+    model=os.getenv("AI_MODEL", "gemini-3.5-flash-lite"),
     # ... other config
 )
 
@@ -672,17 +625,15 @@ response = model_with_retry.invoke("What is LangChain?")
 **Example code:**
 
 ```python
-from langchain_openai import ChatOpenAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 from dotenv import load_dotenv
 import os
 
 load_dotenv()
 
 def main():
-    model = ChatOpenAI(
-        model=os.getenv("AI_MODEL"),
-        base_url=os.getenv("AI_ENDPOINT"),
-        api_key=os.getenv("AI_API_KEY"),
+    model = ChatGoogleGenerativeAI(
+        model=os.getenv("AI_MODEL", "gemini-3.5-flash-lite"),
     )
 
     # Use built-in retry logic - automatically handles 429 errors
@@ -692,7 +643,7 @@ def main():
         print("Making API call with automatic retry...\n")
         response = model_with_retry.invoke("What is LangChain?")
         print(" Success!")
-        print(response.content)
+        print(response.text)
     except Exception as error:
         print(f" Error: {error}")
 
@@ -762,17 +713,15 @@ print(f"  Total tokens:      {usage.get('total_tokens')}")   # Total cost basis
 **Example code:**
 
 ```python
-from langchain_openai import ChatOpenAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 from dotenv import load_dotenv
 import os
 
 load_dotenv()
 
 def track_token_usage():
-    model = ChatOpenAI(
-        model=os.getenv("AI_MODEL"),
-        base_url=os.getenv("AI_ENDPOINT"),
-        api_key=os.getenv("AI_API_KEY")
+    model = ChatGoogleGenerativeAI(
+        model=os.getenv("AI_MODEL", "gemini-3.5-flash-lite")
     )
 
     print(" Token Usage Tracking Example\n")
@@ -792,7 +741,7 @@ def track_token_usage():
         print("️  Token usage information not available in response metadata.")
 
     print("\n Response:")
-    print(response.content)
+    print(response.text)
 
 if __name__ == "__main__":
     track_token_usage()
@@ -841,15 +790,13 @@ data science, machine learning, and automation.
 
 ### Cost Optimization Strategies
 
-Two key strategies to reduce costs:
+Two key strategies to reduce token usage and costs:
 
 **1. Limit response length with max_tokens:**
 
 ```python
-model = ChatOpenAI(
-    model=os.getenv("AI_MODEL"),
-    base_url=os.getenv("AI_ENDPOINT"),
-    api_key=os.getenv("AI_API_KEY"),
+model = ChatGoogleGenerativeAI(
+    model=os.getenv("AI_MODEL", "gemini-3.5-flash-lite"),
     max_tokens=1000  # Cap the response length
 )
 ```

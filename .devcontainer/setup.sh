@@ -24,12 +24,12 @@ echo " Setting up environment variables..."
 if [ ! -f .env ]; then
     cp .env.example .env
     
-    # Replace AI_API_KEY with GitHub token if available
-    if [ ! -z "$GITHUB_TOKEN" ]; then
-        echo " Configuring AI_API_KEY with GitHub token..."
-        sed -i "s/AI_API_KEY=your_github_personal_access_token/AI_API_KEY=$GITHUB_TOKEN/" .env
+    # Replace the placeholder with a Google AI API key if available
+    if [ -n "$GOOGLE_API_KEY" ]; then
+        echo " Configuring Google API key..."
+        sed -i "s/GOOGLE_API_KEY=your_google_ai_api_key/GOOGLE_API_KEY=$GOOGLE_API_KEY/" .env
     else
-        echo "️  GITHUB_TOKEN not found. Please update AI_API_KEY in .env manually."
+        echo "️  GOOGLE_API_KEY not found. Please update GOOGLE_API_KEY in .env manually."
     fi
 else
     echo "️  .env file already exists, skipping creation."

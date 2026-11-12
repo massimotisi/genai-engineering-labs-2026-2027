@@ -1,6 +1,6 @@
 # Introduction to LangChain
 
-In this lab, you'll learn what LangChain is, why it exists, explore its core concepts like models, prompts, and tools, and make your first LLM call using GitHub Models. By the end, you'll understand how LangChain provides a consistent interface across different AI providers, making it easy to switch between them with just environment variables.
+In this lab, you'll learn what LangChain is, why it exists, explore its core concepts like models, prompts, and tools, and make your first LLM call using Google's Gemini API. By the end, you'll understand how LangChain provides a consistent interface across different AI providers.
 
 ## Course Setup
 
@@ -36,10 +36,10 @@ pip --version     # Should show pip version
 
 ```bash
 # Clone the course repository
-git clone https://github.com/massimotisi/applied-llms-labs-2025-2026
+git clone https://github.com/massimotisi/genai-engineering-labs-2025-2026
 
 # Navigate to the project
-cd applied-llms-labs-2025-2026
+cd genai-engineering-labs-2025-2026
 
 # Create a virtual environment
 python -m venv venv
@@ -56,28 +56,17 @@ pip install -r requirements.txt
 
 This will install all required packages including:
 
-- `langchain-openai` - OpenAI-compatible model integration
+- `langchain-google-genai` - Google Gemini model integration
 - `langchain-core` - Core LangChain functionality
 - `langchain` - Main LangChain package with additional utilities
-- `langchain-azure-ai` - Azure specific langchain integrations
 - `python-dotenv` - Environment variable management for API keys
 
 ---
 
-### Step 3: Create GitHub Personal Access Token
+### Step 3: Create a Google AI API Key
 
-GitHub Models provides free access to powerful AI models—you just need a Personal Access Token.
-
-#### Create Your Token
-
-1. **Visit**: https://github.com/settings/tokens/new
-2. **Token name**: `llm-engineering-course` (or any name you prefer)
-3. **Expiration**: Choose your preference (90 days recommended)
-4. **Scopes/Permissions**:
-   -  No scopes needed for GitHub Models!
-   - You can leave all checkboxes unchecked
-5. **Click**: "Generate token"
-6. **️ IMPORTANT**: Copy your token now and save it to a text file temporarily! You'll need it in the next step.
+Create a Gemini API key in [Google AI Studio](https://aistudio.google.com/apikey).
+Copy the key and keep it private. Do not commit it to the repository.
 
 ### Step 4: Configure Environment Variables
 
@@ -101,23 +90,14 @@ Copy-Item .env.example .env
 
 #### Edit `.env` file
 
-Open `.env` in your text editor and configure your AI provider.
-
-**For GitHub Models:**
+Open `.env` in your text editor and add your Google AI API key:
 
 ```bash
-AI_API_KEY=ghp_your_github_token_here
-AI_ENDPOINT=https://models.inference.ai.azure.com
-AI_MODEL=gpt-5-mini
+GOOGLE_API_KEY=your_google_ai_api_key
+AI_MODEL=gemini-3.5-flash-lite
 ```
 
-**Replace `ghp_your_github_token_here` with your actual GitHub token!**
-
-Note: If you exceed the rate limits, you can switch to one of the following models:
-- Meta-Llama-3.1-405B-Instruct  
-- Meta-Llama-3.1-8B-Instruct  
-- gpt-4o  
-- gpt-4o-mini  
+The `AI_MODEL` setting is optional; it defaults to `gemini-3.5-flash-lite`.
 
 ## Test Your Setup
 
@@ -137,8 +117,8 @@ python 01-introduction/scripts/test_setup.py
  Testing AI provider connection...
 
  SUCCESS! Your AI provider is working!
-   Provider: https://models.inference.ai.azure.com
-   Model: gpt-5-mini
+   Provider: Google Gemini API
+   Model: gemini-3.5-flash-lite
 
 Model response: Setup successful!
 
@@ -156,8 +136,8 @@ Before starting the course, make sure you have:
 - [ ] Python 3.10+ installed
 - [ ] Project cloned and virtual environment created
 - [ ] Dependencies installed (`pip install -r requirements.txt`)
-- [ ] GitHub Personal Access Token created if you're using GitHub Models. 
-- [ ] `.env` file configured with your token and endpoint
+- [ ] Google AI API key created and set in `.env`
+- [ ] `.env` file configured with your Google API key and Gemini model
 - [ ] Test script runs successfully
 - [ ] VS Code installed (optional but recommended)
 
@@ -170,7 +150,7 @@ By the end of this lab, you'll be able to:
 -  Understand what LangChain is and why it exists
 -  Recognize common AI application patterns
 -  Set up a development environment
--  Make your first LLM call using GitHub Models
+-  Make your first LLM call using Google Gemini
 
 ---
 
@@ -201,7 +181,7 @@ With LangChain, you get:
 
 ##  Hands-On: Your First LLM Call
 
-Let's make your first AI call using LangChain and GitHub Models!
+Let's make your first AI call using LangChain and Google Gemini!
 
 ### Example 1: Hello World
 
@@ -212,7 +192,7 @@ Let's walk through this step by step and then run the code:
 #### **Step 1: Import what we need**
 
 ```python
-from langchain_openai import ChatOpenAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 from dotenv import load_dotenv
 import os
 
@@ -222,10 +202,8 @@ load_dotenv()
 #### **Step 2: Create the AI model**
 
 ```python
-model = ChatOpenAI(
-    model=os.getenv("AI_MODEL"),
-    base_url=os.getenv("AI_ENDPOINT"),
-    api_key=os.getenv("AI_API_KEY")
+model = ChatGoogleGenerativeAI(
+    model=os.getenv("AI_MODEL", "gemini-3.5-flash-lite")
 )
 ```
 
@@ -233,7 +211,7 @@ model = ChatOpenAI(
 
 ```python
 response = model.invoke("What is LangChain in one sentence?")
-print(" AI Response:", response.content)
+print(" AI Response:", response.text)
 ``` 
 
 **Code**: [`code/01_hello_world.py`](./code/01_hello_world.py)
@@ -242,7 +220,7 @@ print(" AI Response:", response.content)
 **This is the full example code**:
 
 ```python
-from langchain_openai import ChatOpenAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 from dotenv import load_dotenv
 import os
 
@@ -252,16 +230,14 @@ def main():
     print(" Hello LangChain!\n")
 
     # Create a chat model instance
-    model = ChatOpenAI(
-        model=os.getenv("AI_MODEL"),
-        base_url=os.getenv("AI_ENDPOINT"),
-        api_key=os.getenv("AI_API_KEY")
+    model = ChatGoogleGenerativeAI(
+        model=os.getenv("AI_MODEL", "gemini-3.5-flash-lite")
     )
 
     # Make your first AI call!
     response = model.invoke("What is LangChain in one sentence?")
 
-    print(" AI Response:", response.content)
+    print(" AI Response:", response.text)
     print("\n Success! You just made your first LangChain call!")
 
 if __name__ == "__main__":
@@ -283,8 +259,8 @@ When you run this example with `python 01-introduction/code/01_hello_world.py`, 
 ### How It Works
 
 #### **What's happening here?**
-1. We import `ChatOpenAI` from the `langchain_openai` package
-2. We create a model instance by instantiating `ChatOpenAI` with the required parameters
+1. We import `ChatGoogleGenerativeAI` from the `langchain_google_genai` package
+2. We create a model instance by instantiating `ChatGoogleGenerativeAI` with the model name
 3. We call `invoke()` with a simple string prompt, which is the standard way of getting a response from an LLM in LangChain.
 4. We get back a response with the LLM's answer
 
@@ -292,18 +268,17 @@ When you run this example with `python 01-introduction/code/01_hello_world.py`, 
 
 *The flow of your first LLM call - from creating a model instance to receiving a response*
 
-#### **Understanding ChatOpenAI Configuration**:
+#### **Understanding ChatGoogleGenerativeAI Configuration**:
 
-The `ChatOpenAI` constructor takes three key parameters: `model` (which AI model), `base_url` (API endpoint), and `api_key` (authentication).
+The `ChatGoogleGenerativeAI` constructor takes the model name. It reads your API key from the `GOOGLE_API_KEY` environment variable.
 
-We read these from environment variables (`AI_MODEL`, `AI_ENDPOINT`, `AI_API_KEY`) defined in your `.env` file. This keeps credentials out of code and lets you switch providers by updating `.env`.
+The model name comes from `AI_MODEL` in your `.env` file.
 
 **Why use environment variables?**
-- `AI_MODEL` specifies which AI model to use (like `gpt-5` or `gpt-5-mini`)
-- `AI_ENDPOINT` tells the application where to find the AI service
-- `AI_API_KEY` provides authentication credentials.
+- `AI_MODEL` specifies which Gemini model to use
+- `GOOGLE_API_KEY` provides authentication credentials.
 
-Storing these in `.env` means you can switch between providers (GitHub Models, Azure, OpenAI etc.) by changing just the configuration file, not your code.
+Storing the key in `.env` keeps it out of your source code and version control.
 
 ---
 
@@ -321,7 +296,7 @@ Let's see how to use SystemMessage and HumanMessage to control AI behavior and s
 **This is the full example code**:
 
 ```python
-from langchain_openai import ChatOpenAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.messages import HumanMessage, SystemMessage
 from dotenv import load_dotenv
 import os
@@ -331,22 +306,20 @@ load_dotenv()
 def main():
     print(" Understanding Message Types\n")
 
-    model = ChatOpenAI(
-        model=os.getenv("AI_MODEL"),
-        base_url=os.getenv("AI_ENDPOINT"),
-        api_key=os.getenv("AI_API_KEY")
+    model = ChatGoogleGenerativeAI(
+        model=os.getenv("AI_MODEL", "gemini-3.5-flash-lite")
     )
 
     # Using structured messages for better control
     messages = [
-        SystemMessage(content="You are a helpful AI assistant who explains things simply."),
-        HumanMessage(content="Explain quantum computing to a 10-year-old."),
+        SystemMessage(content="You are a helpful AI assistant who explains things to a 10-year-old."),
+        HumanMessage(content="Explain quantum computing."),
     ]
 
     response = model.invoke(messages)
 
     print(" AI Response:\n")
-    print(response.content)
+    print(response.text)
     print("\n Notice how the SystemMessage influenced the response style!")
 
 if __name__ == "__main__":
@@ -380,10 +353,6 @@ Quantum computing is like having a super-fast magic box that can try many differ
 3. The AI crafts a response that matches the system instruction (simple explanation)
 4. Because we set the personality in the SystemMessage, the response is age-appropriate and clear.
 
-<img src="images/message-types-flow.png" alt="Message Types Flow" width="800"/>
-
-*How SystemMessage, HumanMessage, and AIMessage work together in a conversation*
-
 #### **Why use messages instead of strings?**
 - Better control over AI behavior
 - Maintains conversation context
@@ -393,9 +362,9 @@ Quantum computing is like having a super-fast magic box that can try many differ
 
 ##  Comparing Models
 
-GitHub Models gives you access to multiple AI models. Let's compare them!
+Google AI provides multiple Gemini models. Let's compare them!
 
-**You're building an app and need to choose which model to use.** Should you use `gpt-5` (more capable but costlier) or `gpt-5-mini` (faster and cheaper)?
+**You're building an app and need to choose which model to use.** Compare `gemini-3.8-flash` with `gemini-3.5-flash-lite` for capability, speed, and cost.
 
 Think of it like choosing between calculators: a scientific calculator handles complex equations but takes more time and resources, while a basic calculator is fast and efficient for simple math. The best way to decide is to test both with your actual prompts and compare their responses.
 
@@ -409,7 +378,7 @@ Let's see how to programmatically compare different models side-by-side.
 **This is the full example code**:
 
 ```python
-from langchain_openai import ChatOpenAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 from dotenv import load_dotenv
 import os
 import time
@@ -420,29 +389,25 @@ def compare_models():
     print(" Comparing AI Models\n")
 
     prompt = "Explain recursion in programming in one sentence."
-    models = ["gpt-5", "gpt-5-mini"]
+    models = ["gemini-3.8-flash", "gemini-3.5-flash-lite"]
 
     for model_name in models:
         print(f"\n Testing: {model_name}")
         print("─" * 50)
 
-        model = ChatOpenAI(
-            model=model_name,
-            base_url=os.getenv("AI_ENDPOINT"),
-            api_key=os.getenv("AI_API_KEY"),
-        )
+        model = ChatGoogleGenerativeAI(model=model_name)
 
         start_time = time.time()
         response = model.invoke(prompt)
         duration = (time.time() - start_time) * 1000
 
-        print(f"Response: {response.content}")
+        print(f"Response: {response.text}")
         print(f"️  Time: {duration:.0f}ms")
 
     print("\n Comparison complete!")
     print("\n Key Observations:")
-    print("   - gpt-5 is more capable and detailed")
-    print("   - gpt-5-mini is faster and uses fewer resources")
+    print("   - gemini-3.8-flash is Google's higher-capability Flash model")
+    print("   - gemini-3.5-flash-lite is optimized for speed and efficiency")
     print("   - Choose based on your needs: speed vs. capability")
 
 if __name__ == "__main__":
@@ -457,12 +422,12 @@ When you run this example with `python 01-introduction/code/03_model_comparison.
  Comparing AI Models
 
 
- Testing: gpt-5
+ Testing: gemini-3.8-flash
 ──────────────────────────────────────────────────
 Response: Recursion in programming is a technique where a function calls itself to solve smaller instances of the same problem until it reaches a base case.
 ️  Time: 2134ms
 
- Testing: gpt-5-mini
+ Testing: gemini-3.5-flash-lite
 ──────────────────────────────────────────────────
 Response: Recursion is when a function calls itself to solve a problem by breaking it down into smaller, similar sub-problems.
 ️  Time: 1845ms
@@ -470,8 +435,8 @@ Response: Recursion is when a function calls itself to solve a problem by breaki
  Comparison complete!
 
  Key Observations:
-   - gpt-5 is more capable and detailed
-   - gpt-5-mini is faster and uses fewer resources
+   - gemini-3.8-flash is Google's higher-capability Flash model
+   - gemini-3.5-flash-lite is optimized for speed and efficiency
    - Choose based on your needs: speed vs. capability
 ```
 
@@ -481,48 +446,16 @@ Response: Recursion is when a function calls itself to solve a problem by breaki
 
 #### **What's happening**:
 1. We define a single prompt asking about recursion
-2. We loop through two different models: `gpt-5` and `gpt-5-mini`
-3. For each model, we create a new `ChatOpenAI` instance with that model name
+2. We loop through two different Gemini models
+3. For each model, we create a new `ChatGoogleGenerativeAI` instance with that model name
 4. We invoke the same prompt on each model
 5. We display the response from each model for comparison
 
 #### **What you'll notice**:
 - Different models have different response styles
-- `gpt-5` tends to be more detailed and sophisticated
-- `gpt-5-mini` is more concise but still accurate
+- `gemini-3.8-flash` is a higher-capability model
+- `gemini-3.5-flash-lite` is designed for speed and efficiency
 - Both answers are correct, just expressed differently
-
----
-
-## ️ Concept Map
-
-This lab introduced you to the core concepts of LangChain:
-
-```mermaid
-graph LR
-    A[LangChain] --> B[Models]
-    A --> C[Prompts]
-    A --> D[Tools]
-    A --> E[Agents]
-    A --> F[Memory]
-    B --> G[Provider Abstraction]
-    G --> H[GitHub Models]
-```
-
-*These concepts work together to create powerful AI applications. You'll explore each in depth throughout the course.*
-
----
-
-##  Try More Yourself
-
-**Quick Challenge**: Before moving to the next section, try modifying Example 1:
-
-1. Open `code/01_hello_world.py`
-2. Change the question from "What is LangChain in one sentence?" to "Explain AI in simple terms"
-3. Run it again: `python 01-introduction/code/01_hello_world.py`
-4. Notice how the AI adapts to different questions
-
-**Bonus**: Try asking about your favorite programming concept or hobby!
 
 ---
 
@@ -535,8 +468,6 @@ graph LR
 - **Code Assistants**: Use tools and agents to search documentation, run tests, and suggest improvements
 - **Customer Support Systems**: Use message types to set tone and memory to maintain context across conversations
 
-Now that you understand how these concepts apply to real applications, let's review what you've learned.
-
 ---
 
 ##  Key Takeaways
@@ -544,14 +475,13 @@ Now that you understand how these concepts apply to real applications, let's rev
 Let's review what you learned:
 
 - **LangChain is an abstraction layer** - It provides a consistent interface across different LLM providers
-- **Built on composable components** - Models, prompts, tools, agents, and memory work together
 - **Messages have types** - SystemMessage, HumanMessage, and AIMessage serve different purposes
 
 ---
 
 ##  Assignment
 
-The more you practice the better you'll get! Here are a few more challenges you can try to help you practice. Complete the challenges in [assignment.md](./assignment.md)!
+Complete the challenges in [assignment.md](./assignment.md)!
 
 The assignment includes:
 1. **System Prompts Experiment** - Learn how SystemMessage affects AI behavior
@@ -562,5 +492,5 @@ The assignment includes:
 ##  Additional Resources
 
 - [LangChain Python Documentation](https://python.langchain.com/)
-- [GitHub Models Marketplace](https://github.com/marketplace/models)
+- [Google AI Studio](https://aistudio.google.com/)
 - [Chat Models Documentation](https://python.langchain.com/docs/integrations/chat/)

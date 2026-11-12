@@ -6,17 +6,15 @@ Run: python 02-chat-models/code/06_token_tracking.py
 import os
 
 from dotenv import load_dotenv
-from langchain_openai import ChatOpenAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 
 # Load environment variables
 load_dotenv()
 
 
 def track_token_usage():
-    model = ChatOpenAI(
-        model=os.getenv("AI_MODEL"),
-        base_url=os.getenv("AI_ENDPOINT"),
-        api_key=os.getenv("AI_API_KEY"),
+    model = ChatGoogleGenerativeAI(
+        model=os.getenv("AI_MODEL", "gemini-3.5-flash-lite"),
     )
 
     print(" Token Usage Tracking Example\n")
@@ -36,7 +34,7 @@ def track_token_usage():
         print("️  Token usage information not available in response metadata.")
 
     print("\n Response:")
-    print(response.content)
+    print(response.text)
 
 
 if __name__ == "__main__":

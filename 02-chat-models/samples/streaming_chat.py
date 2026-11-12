@@ -8,12 +8,14 @@ import sys
 import time
 
 from dotenv import load_dotenv
-from langchain_openai import ChatOpenAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 
 # Load environment variables
 load_dotenv()
 
-model = ChatOpenAI(model=os.environ.get("AI_MODEL", "gpt-5-mini"))
+model = ChatGoogleGenerativeAI(
+    model=os.environ.get("AI_MODEL", "gemini-3.5-flash-lite")
+)
 
 
 def streaming_chat():
@@ -48,7 +50,7 @@ def streaming_chat():
             for chunk in stream:
                 if first_chunk_time == 0:
                     first_chunk_time = time.time()
-                content = str(chunk.content)
+                content = chunk.text
                 sys.stdout.write(content)
                 sys.stdout.flush()
                 full_response += content

@@ -7,7 +7,7 @@ import os
 
 from dotenv import load_dotenv
 from langchain_core.messages import HumanMessage, SystemMessage
-from langchain_openai import ChatOpenAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 
 load_dotenv()
 
@@ -15,24 +15,22 @@ load_dotenv()
 def main():
     print(" Understanding Message Types\n")
 
-    model = ChatOpenAI(
-        model=os.getenv("AI_MODEL"),
-        base_url=os.getenv("AI_ENDPOINT"),
-        api_key=os.getenv("AI_API_KEY"),
+    model = ChatGoogleGenerativeAI(
+        model=os.getenv("AI_MODEL", "gemini-3.5-flash-lite"),
     )
 
     # Using structured messages for better control
     messages = [
         SystemMessage(
-            content="You are a helpful AI assistant who explains things simply."
+            content="You are a helpful AI assistant who explains things to a 10-year-old."
         ),
-        HumanMessage(content="Explain quantum computing to a 10-year-old."),
+        HumanMessage(content="Explain quantum computing."),
     ]
 
     response = model.invoke(messages)
 
     print(" AI Response:\n")
-    print(response.content)
+    print(response.text)
     print("\n Notice how the SystemMessage influenced the response style!")
 
 

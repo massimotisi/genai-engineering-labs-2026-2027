@@ -7,7 +7,7 @@ import os
 
 from dotenv import load_dotenv
 from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
-from langchain_openai import ChatOpenAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 
 # Load environment variables
 load_dotenv()
@@ -17,10 +17,8 @@ def main():
     print(" Multi-Turn Conversation Example\n")
 
     # Create a chat model instance
-    model = ChatOpenAI(
-        model=os.getenv("AI_MODEL"),
-        base_url=os.getenv("AI_ENDPOINT"),
-        api_key=os.getenv("AI_API_KEY"),
+    model = ChatGoogleGenerativeAI(
+        model=os.getenv("AI_MODEL", "gemini-3.5-flash-lite"),
     )
 
     # Start with system message and first question
@@ -35,16 +33,16 @@ def main():
 
     # First exchange
     response1 = model.invoke(messages)
-    print(f"\n AI: {response1.content}")
-    messages.append(AIMessage(content=str(response1.content)))
+    print(f"\n AI: {response1.text}")
+    messages.append(AIMessage(content=response1.text))
 
     # Second exchange - AI remembers the context
     print("\n User: Can you show me a simple example?")
     messages.append(HumanMessage(content="Can you show me a simple example?"))
 
     response2 = model.invoke(messages)
-    messages.append(AIMessage(content=str(response2.content)))
-    print(f"\n AI: {response2.content}")
+    messages.append(AIMessage(content=response2.text))
+    print(f"\n AI: {response2.text}")
 
     # Third exchange - AI still remembers everything
     print("\n User: What are the benefits compared to other languages?")
@@ -54,7 +52,7 @@ def main():
 
     # the 3rd AI response is not added to conversation history since it is the last in the conversation
     response3 = model.invoke(messages)
-    print(f"\n AI: {response3.content}")
+    print(f"\n AI: {response3.text}")
 
     print("\n\n Notice how the AI maintains context throughout the conversation!")
     print(

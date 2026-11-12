@@ -8,7 +8,7 @@ from dataclasses import dataclass, field
 from typing import Optional
 
 from dotenv import load_dotenv
-from langchain_openai import ChatOpenAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 
 # Load environment variables
 load_dotenv()
@@ -30,9 +30,9 @@ class CallRecord:
 
 
 class TokenTracker:
-    # Pricing per 1M tokens (approximate for gpt-5-mini)
-    INPUT_COST_PER_MILLION = 0.15  # $0.15 per 1M input tokens
-    OUTPUT_COST_PER_MILLION = 0.60  # $0.60 per 1M output tokens
+    # Standard paid-tier pricing per 1M tokens; verify rates before relying on estimates.
+    INPUT_COST_PER_MILLION = 0.30
+    OUTPUT_COST_PER_MILLION = 2.50
     WARNING_THRESHOLD = 10000  # Warn at 10k tokens
 
     def __init__(self):
@@ -44,7 +44,7 @@ class TokenTracker:
         output_cost = (output_tokens / 1_000_000) * self.OUTPUT_COST_PER_MILLION
         return input_cost + output_cost
 
-    def track_call(self, model: ChatOpenAI, query: str) -> str:
+    def track_call(self, model: ChatGoogleGenerativeAI, query: str) -> str:
         self.call_count += 1
 
         print(f"\n Call #{self.call_count}: Processing...")
@@ -56,7 +56,7 @@ class TokenTracker:
 
         if not usage:
             print("️  Token usage data not available")
-            return str(response.content)
+            return response.text
 
         prompt_tokens = usage.get("input_tokens", 0)
         completion_tokens = usage.get("output_tokens", 0)
@@ -91,7 +91,7 @@ class TokenTracker:
                 f"\n️  WARNING: Session total ({total_session_tokens} tokens) exceeds threshold!"
             )
 
-        return str(response.content)
+        return response.text
 
     def get_total_tokens(self) -> int:
         return sum(call.usage.total_tokens for call in self.calls)
@@ -156,7 +156,9 @@ def main():
     print(" Token Usage Tracker\n")
     print("=" * 60 + "\n")
 
-    model = ChatOpenAI(model=os.environ.get("AI_MODEL", "gpt-5-mini"))
+    model = ChatGoogleGenerativeAI(
+        model=os.environ.get("AI_MODEL", "gemini-3.5-flash-lite")
+    )
 
     tracker = TokenTracker()
 
@@ -190,7 +192,7 @@ def main():
     print()
 
     print(" Cost Optimization Tips:")
-    print("   • Use gpt-5-mini for simple tasks")
+    print("   • Use Gemini 3.5 Flash-Lite for simple, high-volume tasks")
     print("   • Keep prompts concise")
     print("   • Use streaming for better UX without extra cost")
     print("   • Cache responses when possible")

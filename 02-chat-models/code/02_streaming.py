@@ -8,7 +8,7 @@ import sys
 import time
 
 from dotenv import load_dotenv
-from langchain_openai import ChatOpenAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 
 # Load environment variables
 load_dotenv()
@@ -18,17 +18,15 @@ def non_streaming_example():
     print(" Non-Streaming (traditional way):\n")
 
     # Create a chat model instance
-    model = ChatOpenAI(
-        model=os.getenv("AI_MODEL"),
-        base_url=os.getenv("AI_ENDPOINT"),
-        api_key=os.getenv("AI_API_KEY"),
+    model = ChatGoogleGenerativeAI(
+        model=os.getenv("AI_MODEL", "gemini-3.5-flash-lite"),
     )
 
     start_time = time.time()
     response = model.invoke("Explain how the internet works in 2 paragraphs.")
     end_time = time.time()
 
-    print(response.content)
+    print(response.text)
     elapsed_ms = (end_time - start_time) * 1000
     print(f"\n️  Received after: {elapsed_ms:.0f}ms\n")
 
@@ -37,10 +35,8 @@ def streaming_example():
     print("\n" + "=" * 80)
     print(" AI (streaming):")
 
-    model = ChatOpenAI(
-        model=os.getenv("AI_MODEL"),
-        base_url=os.getenv("AI_ENDPOINT"),
-        api_key=os.getenv("AI_API_KEY"),
+    model = ChatGoogleGenerativeAI(
+        model=os.getenv("AI_MODEL", "gemini-3.5-flash-lite"),
     )
 
     start_time = time.time()
@@ -51,7 +47,7 @@ def streaming_example():
         if first_chunk_time == 0:
             first_chunk_time = time.time()
         # Write each chunk as it arrives (no newline)
-        print(chunk.content, end="", flush=True)
+        print(chunk.text, end="", flush=True)
 
     print("\n\n Stream complete!")
     end_time = time.time()

@@ -7,7 +7,7 @@ import os
 from typing import Optional
 
 from dotenv import load_dotenv
-from langchain_openai import ChatOpenAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 
 # Load environment variables
 load_dotenv()
@@ -20,7 +20,9 @@ def robust_chat(
     fallback_response: str = "I apologize, but I'm having trouble connecting right now. Please try again later.",
 ) -> str:
     """Makes a robust API call with automatic retry and fallback."""
-    model = ChatOpenAI(model=os.environ.get("AI_MODEL", "gpt-5-mini"))
+    model = ChatGoogleGenerativeAI(
+        model=os.environ.get("AI_MODEL", "gemini-3.5-flash-lite")
+    )
 
     # Use LangChain's built-in retry logic - automatically handles retries with exponential backoff
     model_with_retry = model.with_retry(stop_after_attempt=max_retries)
@@ -31,7 +33,7 @@ def robust_chat(
         response = model_with_retry.invoke(prompt)
         print(" Success!\n")
 
-        return str(response.content)
+        return response.text
     except Exception as error:
         error_msg = str(error)
         print(f" All {max_retries} attempts failed: {error_msg[:100]}...")
@@ -64,13 +66,10 @@ def test_robust_chat():
     print("\n" + "=" * 80)
     print("\n2️⃣  Test: Invalid API Key (will retry then fallback)\n")
 
-    # Save original key
-    original_key = os.environ.get("AI_API_KEY")
-
     # Test with invalid key by creating a bad model directly
     try:
-        bad_model = ChatOpenAI(
-            model=os.environ.get("AI_MODEL", "gpt-5-mini"),
+        bad_model = ChatGoogleGenerativeAI(
+            model=os.environ.get("AI_MODEL", "gemini-3.5-flash-lite"),
             api_key="invalid_key",
         )
         bad_model_with_retry = bad_model.with_retry(stop_after_attempt=2)

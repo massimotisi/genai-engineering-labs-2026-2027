@@ -32,14 +32,14 @@ Now that you've learned the basics of LangChain, it's time to practice! These ch
 **Hints**:
 ```python
 # 1. Import required modules
-from langchain_openai import ChatOpenAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.messages import HumanMessage, SystemMessage
 from dotenv import load_dotenv
 
 # 2. Load environment variables
 load_dotenv()
 
-# 3. Create the ChatOpenAI model (reuse for all personalities)
+# 3. Create the ChatGoogleGenerativeAI model (reuse for all personalities)
 
 # 4. Define a list of personalities with name and system prompt
 
@@ -59,9 +59,9 @@ load_dotenv()
 
 **Tasks**:
 1. Create a file called `model_performance.py`
-2. Test at least 2 models available on GitHub Models:
-   - `gpt-5`
-   - `gpt-5-mini`
+2. Test at least 2 Gemini models:
+   - `gemini-3.8-flash`
+   - `gemini-3.5-flash-lite`
 3. For each model, measure:
    - Response time
    - Response length (character count)
@@ -76,8 +76,8 @@ load_dotenv()
 ─────────────────────────────────────────────
 Model          | Time    | Length | Quality
 ─────────────────────────────────────────────
-gpt-5-mini    | 567ms   | 234ch  | 
-gpt-5         | 1234ms  | 456ch  | 
+gemini-3.5-flash-lite | 567ms   | 234ch  |
+gemini-3.8-flash      | 1234ms  | 456ch  |
 ```
 
 **Success Criteria**:
@@ -89,7 +89,7 @@ gpt-5         | 1234ms  | 456ch  |
 ```python
 # 1. Import required modules
 import time
-from langchain_openai import ChatOpenAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 from dotenv import load_dotenv
 
 # 2. Load environment variables
@@ -99,13 +99,13 @@ load_dotenv()
 question = "Explain the difference between machine learning and deep learning."
 
 models = [
-    {"name": "gpt-5", "description": "Most capable"},
-    {"name": "gpt-5-mini", "description": "Fast and efficient"},
+    {"name": "gemini-3.8-flash", "description": "Higher capability"},
+    {"name": "gemini-3.5-flash-lite", "description": "Fast and efficient"},
 ]
 
 # 4. Create a function to test each model:
 #    - Accept model_name as parameter
-#    - Create ChatOpenAI instance with that model
+#    - Create ChatGoogleGenerativeAI instance with that model
 #    - Measure start time with time.time()
 #    - Invoke the model with the question
 #    - Measure end time and calculate duration

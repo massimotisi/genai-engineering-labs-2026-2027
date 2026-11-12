@@ -6,7 +6,7 @@ Run: python 02-chat-models/code/05_error_handling.py
 import os
 
 from dotenv import load_dotenv
-from langchain_openai import ChatOpenAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 
 # Load environment variables
 load_dotenv()
@@ -14,10 +14,8 @@ load_dotenv()
 
 def robust_call(prompt: str, max_retries: int = 3) -> str:
     """Makes an API call with automatic retry logic using LangChain's built-in with_retry()"""
-    model = ChatOpenAI(
-        model=os.getenv("AI_MODEL"),
-        base_url=os.getenv("AI_ENDPOINT"),
-        api_key=os.getenv("AI_API_KEY"),
+    model = ChatGoogleGenerativeAI(
+        model=os.getenv("AI_MODEL", "gemini-3.5-flash-lite"),
     )
 
     # Use LangChain's built-in retry logic - automatically handles retries with exponential backoff
@@ -28,7 +26,7 @@ def robust_call(prompt: str, max_retries: int = 3) -> str:
     response = model_with_retry.invoke(prompt)
     print(" Success!")
 
-    return str(response.content)
+    return response.text
 
 
 def error_examples():
@@ -39,10 +37,9 @@ def error_examples():
     # Example 1: Invalid API key - actually demonstrate the error!
     print("\n1️⃣  Example: Invalid API Key\n")
     try:
-        bad_model = ChatOpenAI(
-            model=os.environ.get("AI_MODEL", "gpt-5-mini"),
-            api_key="invalid_key_12345",  # Intentionally invalid
-            base_url=os.getenv("AI_ENDPOINT"),
+        bad_model = ChatGoogleGenerativeAI(
+            model=os.environ.get("AI_MODEL", "gemini-3.5-flash-lite"),
+            api_key="invalid_key_12345",
         )
 
         print(" Attempting call with invalid API key...")
@@ -68,10 +65,9 @@ def error_examples():
 
     try:
         # Test with invalid key
-        bad_model = ChatOpenAI(
-            model=os.environ.get("AI_MODEL", "gpt-5-mini"),
-            api_key="sk-invalid12345",
-            base_url=os.getenv("AI_ENDPOINT"),
+        bad_model = ChatGoogleGenerativeAI(
+            model=os.environ.get("AI_MODEL", "gemini-3.5-flash-lite"),
+            api_key="invalid_key_12345",
         )
 
         print(" Testing error categorization with invalid credentials...")
