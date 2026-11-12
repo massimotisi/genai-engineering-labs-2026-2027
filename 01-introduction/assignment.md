@@ -2,11 +2,11 @@
 
 ## Overview
 
-Now that you've learned the basics of LangChain, it's time to practice! These challenges will help reinforce what you've learned about models, messages, and making your first LLM calls.
+Now that you've learned the basics of LangChain, it's time to practice! These exercises will help reinforce what you've learned about models, messages, and making your first LLM calls.
 
 ---
 
-## Challenge: Experiment with System Prompts 
+## Exercise: Experiment with System Prompts 
 
 **Goal**: Learn how system messages affect AI behavior.
 
@@ -53,7 +53,7 @@ load_dotenv()
 
 ---
 
-## Bonus Challenge: Model Performance Comparison 
+## Bonus Exercise: Model Performance Comparison 
 
 **Goal**: Compare multiple models on the same task.
 
@@ -123,12 +123,11 @@ models = [
 
 Solutions for all challenges will be available in the [`solution/`](./solution/) folder. Try to complete the challenges on your own first before looking at the solutions!
 
-**Additional Examples**: Check out the [`samples/`](./samples/) folder for more example solutions that demonstrate other useful concepts!
+**Additional Examples**: Check out the [`samples/`](./samples/) folder for more example solutions that demonstrate other useful concepts
 
 ---
 
 ## Need Help?
 
 - **Stuck on code**: Review the examples in [`code/`](./code/)
-- **Error messages**: Check [Course Setup](../00-course-setup/README.md) troubleshooting
 - **Concepts unclear**: Re-read and study this [lab](./README.md)
