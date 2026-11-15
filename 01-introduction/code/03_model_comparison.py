@@ -15,7 +15,7 @@ def compare_models():
     print(" Comparing AI Models\n")
 
     prompt = "Explain recursion in programming in one sentence."
-    models = ["gemma-4-26b-a4b-it", "gemini-3.5-flash-lite"]
+    models = ["gemma-4-26b-a4b-it"]
 
     for model_name in models:
         print(f"\n Testing: {model_name}")

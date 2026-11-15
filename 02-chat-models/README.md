@@ -111,7 +111,7 @@ def main():
     print(" Multi-Turn Conversation Example\n")
 
     model = ChatOpenAI(
-        model=os.getenv("AI_MODEL", "gemini-3.5-flash-lite"),
+        model=os.getenv("AI_MODEL"),
     )
 
     # Start with system message and first question
@@ -227,7 +227,7 @@ def main():
     print(" AI (streaming):")
 
     model = ChatOpenAI(
-        model=os.getenv("AI_MODEL", "gemini-3.5-flash-lite")
+        model=os.getenv("AI_MODEL")
     )
 
     # Stream the response chunk by chunk
@@ -324,7 +324,7 @@ temperatures = [0, 1, 2]
 for temp in temperatures:
     # Create model with specific temperature
     model = ChatOpenAI(
-        model=os.getenv("AI_MODEL", "gemini-3.5-flash-lite"),
+        model=os.getenv("AI_MODEL"),
         temperature=temp,  # Controls randomness/creativity
         # ... other config
     )
@@ -339,7 +339,7 @@ For max tokens:
 for max_tokens in token_limits:
 
     model = ChatOpenAI(
-        model=os.getenv("AI_MODEL", "gemini-3.5-flash-lite"),
+        model=os.getenv("AI_MODEL"),
         max_tokens=max_tokens,
         # ... other config
     )
@@ -369,7 +369,7 @@ def temperature_comparison():
         print("-" * 80)
 
         model = ChatOpenAI(
-            model=os.getenv("AI_MODEL", "gemini-3.5-flash-lite"),
+            model=os.getenv("AI_MODEL"),
             temperature=temp,
         )
 
@@ -471,7 +471,7 @@ LangChain provides `init_chat_model()` for provider-agnostic initialization. Thi
 
 ### Example 4: Provider-Agnostic Initialization
 
-This example shows how to use `init_chat_model()` with Gemini through its OpenAI-compatible endpoint.
+This example shows how to use `init_chat_model()` with an OpenAI-compatible endpoint.
 
 **Key code you'll work with:**
 
@@ -499,7 +499,7 @@ load_dotenv()
 def main():
     print(" Provider-Agnostic Initialization with Gemini\n")
 
-    model_name = os.getenv("AI_MODEL", "gemini-3.5-flash-lite")
+    model_name = os.getenv("AI_MODEL")
     model = init_chat_model(
         f"openai:{model_name}",
         base_url=os.getenv("OPENAI_BASE_URL"),
@@ -582,7 +582,7 @@ Instead of implementing manual retry logic, use LangChain's `with_retry()` metho
 
 ```python
 model = ChatOpenAI(
-    model=os.getenv("AI_MODEL", "gemini-3.5-flash-lite"),
+    model=os.getenv("AI_MODEL"),
     # ... other config
 )
 
@@ -607,7 +607,7 @@ load_dotenv()
 
 def main():
     model = ChatOpenAI(
-        model=os.getenv("AI_MODEL", "gemini-3.5-flash-lite"),
+        model=os.getenv("AI_MODEL"),
     )
 
     # Use built-in retry logic - automatically handles 429 errors
@@ -695,7 +695,7 @@ load_dotenv()
 
 def track_token_usage():
     model = ChatOpenAI(
-        model=os.getenv("AI_MODEL", "gemini-3.5-flash-lite")
+        model=os.getenv("AI_MODEL")
     )
 
     print(" Token Usage Tracking Example\n")
@@ -768,7 +768,7 @@ Two key strategies to reduce token usage and costs:
 
 ```python
 model = ChatOpenAI(
-    model=os.getenv("AI_MODEL", "gemini-3.5-flash-lite"),
+    model=os.getenv("AI_MODEL"),
     max_tokens=1000  # Cap the response length
 )
 ```

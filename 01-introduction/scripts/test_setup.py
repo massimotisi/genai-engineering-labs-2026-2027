@@ -27,7 +27,7 @@ def test_setup():
 
     try:
         model = ChatOpenAI(
-            model=os.getenv("AI_MODEL", "gemini-3.5-flash-lite"),
+            model=os.getenv("AI_MODEL"),
             base_url=os.getenv("OPENAI_BASE_URL"),
             api_key=os.getenv("OPENAI_API_KEY"),
         )
@@ -35,18 +35,17 @@ def test_setup():
         response = model.invoke("Say 'Setup successful!'")
 
         print(" SUCCESS! Your AI provider is working!")
-        print("   Provider: Google Gemini API (OpenAI-compatible endpoint)")
-        print(f"   Model: {os.getenv('AI_MODEL', 'gemini-3.5-flash-lite')}")
+        print(f"   Endpoint: {os.getenv('OPENAI_BASE_URL')}")
+        print(f"   Model: {os.getenv('AI_MODEL')}")
         print(f"\nModel response: {response.text}")
         print("\n You're ready to start the course!")
     except Exception as error:
         print(f" ERROR: {str(error)}")
         print("\nTroubleshooting:")
-        print("1. Check your Gemini API key in OPENAI_API_KEY in .env file")
+        print("1. Check your API key in OPENAI_API_KEY in .env file")
         print("2. Check OPENAI_BASE_URL in .env file")
-        print("3. Ensure the Gemini API is enabled for your Google AI Studio key")
-        print("4. Ensure the AI_MODEL is valid")
-        print("5. Verify the token/key has no extra spaces")
+        print("3. Ensure the AI_MODEL is valid")
+        print("4. Verify the token/key has no extra spaces")
         sys.exit(1)
 
 

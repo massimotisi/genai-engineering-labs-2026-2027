@@ -156,9 +156,7 @@ def main():
     print(" Token Usage Tracker\n")
     print("=" * 60 + "\n")
 
-    model = ChatOpenAI(
-        model=os.environ.get("AI_MODEL", "gemini-3.5-flash-lite")
-    )
+    model = ChatOpenAI(model=os.environ.get("AI_MODEL"))
 
     tracker = TokenTracker()
 

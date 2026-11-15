@@ -16,7 +16,7 @@ def main():
     print(" Understanding Message Types\n")
 
     model = ChatOpenAI(
-        model=os.getenv("AI_MODEL", "gemini-3.5-flash-lite"),
+        model=os.getenv("AI_MODEL"),
     )
 
     # Using structured messages for better control

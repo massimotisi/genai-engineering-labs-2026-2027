@@ -19,7 +19,7 @@ def non_streaming_example():
 
     # Create a chat model instance
     model = ChatOpenAI(
-        model=os.getenv("AI_MODEL", "gemini-3.5-flash-lite"),
+        model=os.getenv("AI_MODEL"),
     )
 
     start_time = time.time()
@@ -36,7 +36,7 @@ def streaming_example():
     print(" AI (streaming):")
 
     model = ChatOpenAI(
-        model=os.getenv("AI_MODEL", "gemini-3.5-flash-lite"),
+        model=os.getenv("AI_MODEL"),
     )
 
     start_time = time.time()

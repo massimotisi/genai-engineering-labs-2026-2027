@@ -13,7 +13,7 @@ from langchain_openai import ChatOpenAI
 load_dotenv()
 
 model = ChatOpenAI(
-    model=os.environ.get("AI_MODEL", "gemini-3.5-flash-lite"),
+    model=os.environ.get("AI_MODEL"),
     base_url=os.getenv("OPENAI_BASE_URL"),
     api_key=os.getenv("OPENAI_API_KEY"),
 )

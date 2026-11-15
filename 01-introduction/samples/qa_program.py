@@ -11,10 +11,8 @@ from langchain_openai import ChatOpenAI
 # Load environment variables
 load_dotenv()
 
-# Create a Gemini chat model instance
-model = ChatOpenAI(
-    model=os.environ.get("AI_MODEL", "gemini-3.5-flash-lite")
-)
+# Create a chat model instance
+model = ChatOpenAI(model=os.environ.get("AI_MODEL"))
 
 
 def main():

@@ -16,7 +16,7 @@ load_dotenv()
 
 def gemini_example():
     """Demonstrate init_chat_model() with Gemini's OpenAI-compatible API."""
-    model_name = os.getenv("AI_MODEL", "gemini-3.5-flash-lite")
+    model_name = os.getenv("AI_MODEL")
     model = init_chat_model(
         f"openai:{model_name}",
         base_url=os.getenv("OPENAI_BASE_URL"),

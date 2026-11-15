@@ -49,9 +49,9 @@ import os
 # 2. Load environment variables
 load_dotenv()
 
-# 3. Create the Gemini chat model
+# 3. Create the chat model
 model = ChatOpenAI(
-    model=os.environ.get("AI_MODEL", "gemini-3.5-flash-lite")
+    model=os.environ.get("AI_MODEL")
 )
 
 # 4. Initialize conversation history list with a SystemMessage for personality

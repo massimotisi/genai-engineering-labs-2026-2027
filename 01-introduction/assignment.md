@@ -59,9 +59,7 @@ load_dotenv()
 
 **Tasks**:
 1. Create a file called `model_performance.py`
-2. Test at least 2 Google models:
-   - `gemma-4-26b-a4b-it`
-   - `gemini-3.5-flash-lite`
+2. Test at least 2 models
 3. For each model, measure:
    - Response time
    - Response length (character count)
@@ -96,12 +94,6 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # 3. Define question and models list
-question = "Explain the difference between machine learning and deep learning."
-
-models = [
-    {"name": "gemma-4-26b-a4b-it", "description": "Gemma 4 instruction-tuned"},
-    {"name": "gemini-3.5-flash-lite", "description": "Fast and efficient"},
-]
 
 # 4. Create a function to test each model:
 #    - Accept model_name as parameter

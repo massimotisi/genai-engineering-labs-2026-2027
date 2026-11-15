@@ -13,7 +13,7 @@ load_dotenv()
 
 
 def temperature_comparison():
-    model_name = os.environ.get("AI_MODEL", "gemini-3.5-flash-lite")
+    model_name = os.environ.get("AI_MODEL")
     print(f"️  Temperature Comparison for {model_name}\n")
     print("=" * 80)
 
@@ -60,7 +60,7 @@ def max_tokens_example():
 
     prompt = "Write a detailed explanation of machine learning in 5 paragraphs."
 
-    # Gemini 3 models can use tokens internally for reasoning, in addition
+    # Models can use tokens internally for reasoning, in addition
     # to the tokens visible in the generated response.
     is_ci = os.environ.get("CI") == "true"
     token_limits = [1000] if is_ci else [50, 500, 5000]  # Higher for reasoning models
@@ -70,7 +70,7 @@ def max_tokens_example():
         print("-" * 80)
 
         model = ChatOpenAI(
-            model=os.getenv("AI_MODEL", "gemini-3.5-flash-lite"),
+            model=os.getenv("AI_MODEL"),
             max_tokens=max_tokens,
         )
 

@@ -1,6 +1,6 @@
 # Introduction to LangChain
 
-In this lab, you'll learn what LangChain is, why it exists, explore its core concepts like models, prompts, and tools, and make your first LLM call using Google's Gemini API. By the end, you'll understand how LangChain provides a consistent interface across different AI providers.
+In this lab, you'll learn what LangChain is, why it exists, explore its core concepts like models, prompts, and tools, and make your first LLM call using the OpenAI API. By the end, you'll understand how LangChain provides a consistent interface across different AI providers.
 
 ## Course Setup
 
@@ -91,7 +91,7 @@ Copy-Item .env.example .env
 #### Edit `.env` file
 
 Open `.env` in your text editor and add your Google AI API key as
-`OPENAI_API_KEY`, so the OpenAI-compatible client can authenticate with Gemini:
+`OPENAI_API_KEY`, so the OpenAI-compatible client can authenticate:
 
 ```bash
 OPENAI_API_KEY=your_google_ai_api_key
@@ -186,7 +186,7 @@ With LangChain, you get:
 
 ##  Hands-On: Your First LLM Call
 
-Let's make your first AI call using LangChain and Google Gemini!
+Let's make your first AI call using LangChain.
 
 ### Example 1: Hello World
 
@@ -208,7 +208,7 @@ load_dotenv()
 
 ```python
 model = ChatOpenAI(
-    model=os.getenv("AI_MODEL", "gemini-3.5-flash-lite")
+    model=os.getenv("AI_MODEL")
 )
 ```
 
@@ -236,7 +236,7 @@ def main():
 
     # Create a chat model instance
     model = ChatOpenAI(
-        model=os.getenv("AI_MODEL", "gemini-3.5-flash-lite")
+        model=os.getenv("AI_MODEL")
     )
 
     # Make your first AI call!
@@ -311,7 +311,7 @@ def main():
     print(" Understanding Message Types\n")
 
     model = ChatOpenAI(
-        model=os.getenv("AI_MODEL", "gemini-3.5-flash-lite")
+        model=os.getenv("AI_MODEL")
     )
 
     # Using structured messages for better control
