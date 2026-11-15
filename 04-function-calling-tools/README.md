@@ -638,23 +638,6 @@ def send_email(email: str, subject: str, body: str) -> str:
 
 ---
 
-## ️ Concept Map
-
-This lab taught you the complete function calling workflow:
-
-```mermaid
-graph LR
-    A[Query] --> B[LLM Plans]
-    B --> C[Generate Tool Call]
-    C --> D[Execute Tool]
-    D --> E[Get Result]
-    E --> F[LLM Responds]
-```
-
-*The LLM plans, your code executes, and the LLM communicates the results.*
-
----
-
 ##  Progress Checkpoint
 
 Before moving on, make sure you can:
