@@ -1,5 +1,5 @@
 """
-Challenge 1 Solution: Interactive Chatbot
+Exercise 1 Solution: Interactive Chatbot
 Run: python 02-chat-models/solution/chatbot.py
 """
 

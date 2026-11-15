@@ -748,7 +748,7 @@ graph TD
 
 ##  Assignment
 
-Ready to practice? Complete the challenges in [`assignment.md`](./assignment.md):
+Ready to practice? Complete the exercises in [`assignment.md`](./assignment.md):
 
 1. **Few-Shot Format Teacher** - Teach the AI a custom JSON format
 2. **Product Data Extractor** - Extract structured product data with Pydantic

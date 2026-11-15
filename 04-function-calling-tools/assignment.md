@@ -6,7 +6,7 @@ Practice creating type-safe tools with Pydantic schemas, implementing the comple
 
 ---
 
-## Challenge: Weather Tool with Complete Execution Loop 
+## Exercise: Weather Tool with Complete Execution Loop 
 
 **Goal**: Build a weather tool and implement the complete 3-step execution pattern (generate → execute → respond).
 
@@ -72,7 +72,7 @@ model = ChatOpenAI(
 
 ---
 
-## Bonus Challenge: Multi-Tool Travel Assistant 
+## Bonus Exercise: Multi-Tool Travel Assistant 
 
 **Goal**: Build a system with multiple tools where the LLM automatically selects the appropriate tool for travel-related queries.
 
@@ -159,7 +159,7 @@ Query: "What's the distance from Paris to Rome?"
 
 ## Solutions
 
-Solutions for all challenges will be available in the [`solution/`](./solution/) folder. Try to complete the challenges on your own first!
+Solutions for all exercises will be available in the [`solution/`](./solution/) folder. Try to complete the exercises on your own first!
 
 ---
 

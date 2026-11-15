@@ -113,7 +113,7 @@ load_dotenv()
 
 ## Solutions
 
-Solutions for all challenges will be available in the [`solution/`](./solution/) folder. Try to complete the challenges on your own first before looking at the solutions!
+Solutions for all exercises will be available in the [`solution/`](./solution/) folder. Try to complete the exercises on your own first before looking at the solutions!
 
 **Additional Examples**: Check out the [`samples/`](./samples/) folder for more example solutions that demonstrate other useful concepts
 

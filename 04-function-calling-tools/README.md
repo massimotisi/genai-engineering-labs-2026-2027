@@ -686,7 +686,7 @@ Before moving on, make sure you can:
 
 ##  Assignment
 
-Ready to practice? Complete the challenges in [assignment.md](./assignment.md)!
+Ready to practice? Complete the exercises in [assignment.md](./assignment.md).
 
 The assignment includes:
 1. **Weather Tool with Complete Execution Loop** - Build a weather tool and implement the complete 3-step execution pattern

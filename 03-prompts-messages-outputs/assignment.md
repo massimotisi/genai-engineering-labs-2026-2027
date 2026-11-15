@@ -6,7 +6,7 @@ Practice creating reusable, maintainable prompts using templates, few-shot learn
 
 ---
 
-## Challenge: Few-Shot Format Teacher 
+## Exercise: Few-Shot Format Teacher 
 
 **Goal**: Use few-shot prompting to teach the AI a custom output format.
 
@@ -70,7 +70,7 @@ model = ChatOpenAI(
 
 ---
 
-## Bonus Challenge: Product Data Extractor with Structured Outputs ️
+## Bonus Exercise: Product Data Extractor with Structured Outputs ️
 
 **Goal**: Build a system that extracts product information into validated, typed data structures.
 
@@ -149,7 +149,7 @@ model = ChatOpenAI(
 
 ## Solutions
 
-Solutions for all challenges will be available in the [`solution/`](./solution/) folder. Try to complete the challenges on your own first!
+Solutions for all exercises will be available in the [`solution/`](./solution/) folder. Try to complete the exercises on your own first!
 
 **Additional Examples**: Check out the [`samples/`](./samples/) folder for more examples including email generation, translation systems, dynamic prompt builders, and template libraries!
 
