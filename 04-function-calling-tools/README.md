@@ -2,7 +2,7 @@
 
 In this lab, you'll learn how to extend AI capabilities beyond text generation by enabling function calling and tools. You'll discover how LLMs can invoke functions with structured arguments, create type-safe tools using Pydantic schemas, and build systems where AI can trigger real-world actions like API calls, database queries, or calculations.
 
-**This is a foundational lab for building AI agents.** Tools are the building blocks that give agents their capabilities—without tools, agents are just text generators. In [Getting Started with Agents](../05-agents/README.md), you'll see how agents use the tools you create here to autonomously make decisions and solve multi-step problems.
+This is a foundational lab for building AI agents. Tools are the building blocks that give agents their capabilities—without tools, agents are just text generators. 
 
 ##  Learning Objectives
 
@@ -28,36 +28,6 @@ The code snippets in this README are simplified for clarity. The actual code fil
 -  **Additional examples** demonstrating edge cases and best practices
 
 When you run the files, expect more detailed output and additional safeguards than shown in the simplified snippets below.
-
----
-
-##  The Restaurant Staff Analogy
-
-**Imagine you're a restaurant manager coordinating your team.**
-
-When a customer orders "I'd like the daily special with no onions, a side salad, and sparkling water," you don't do everything yourself. Instead:
-
-1. **You understand the request** (what they want)
-2. **You delegate to specialists**:
-   - ‍ Chef: "Make the daily special, no onions" (function: `prepare_meal`)
-   -  Salad station: "Prepare a side salad" (function: `make_salad`)
-   -  Bar: "Serve sparkling water" (function: `serve_beverage`)
-3. **Each specialist confirms** what they're doing
-4. **You coordinate the response** back to the customer
-
-**Function calling in AI works exactly the same way!**
-
-The LLM:
-- **Understands** the user's request
-- **Generates structured function calls** with proper arguments
-- **Returns** the function details (but doesn't execute them)
-- **Processes** the function results to form a response
-
-The key: The LLM doesn't *do* the actions itself. Instead, it *describes* which functions to call and with what parameters. Your code executes them.
-
-![Restaurant Staff Analogy](./images/restaurant-staff-analogy.png)
-
-*Function calling works like a restaurant manager delegating to specialists - LLM generates function calls, your code executes them*
 
 ---
 
