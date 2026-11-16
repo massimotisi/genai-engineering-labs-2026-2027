@@ -2,8 +2,6 @@
 
 In this lab, you'll learn the three essential techniques for working with LLMs in LangChain: **messages**, **prompt templates**, and **structured outputs**. Understanding these techniques is key, because modern LangChain applications choose different approaches depending on the use case. Messages provide dynamic construction for flexible workflows like agents, templates provide reusable prompts with variable substitution, and structured outputs ensure type-safe data extraction.
 
-This lab prepares you for both **agents** (using messages) and **RAG systems** (using templates).
-
 ##  Learning Objectives
 
 By the end of this lab, you'll be able to:
@@ -15,21 +13,6 @@ By the end of this lab, you'll be able to:
 -  Implement few-shot prompting (teaching by example)
 -  Generate structured outputs with Pydantic models
 -  Choose the right approach for your use case
-
----
-
-##  Decision Framework: Messages vs Templates
-
-**Before diving into code, understand when to use each approach**:
-
-![Messages vs Templates Decision Framework](./images/messages-vs-templates.png)
-
-| Approach | Use For | Lab |
-|----------|---------|---------|
-| **Messages** | Agents, dynamic workflows, multi-step reasoning, tool integration | [Getting Started with Agents](../05-agents/README.md) |
-| **Templates** | Reusable prompts, variable substitution, consistency, RAG systems | [Documents, Embeddings & Semantic Search](../07-documents-embeddings-semantic-search/README.md) |
-
-**Both approaches are valuable**: Messages for dynamic workflows, templates for reusability and consistency.
 
 ---
 
@@ -80,7 +63,7 @@ def main():
         api_key=os.getenv("OPENAI_API_KEY"),
     )
 
-    # APPROACH 1: Messages (Dynamic - great for agents)
+    # APPROACH 1: Messages
     print("APPROACH 1: Message Arrays\n")
 
     messages = [
@@ -91,7 +74,7 @@ def main():
     message_response = model.invoke(messages)
     print("Response:", message_response.content)
 
-    # APPROACH 2: Templates (Reusable - great for RAG)
+    # APPROACH 2: Templates
     print("\nAPPROACH 2: Templates\n")
 
     template = ChatPromptTemplate.from_messages([
@@ -673,46 +656,13 @@ Public: True
 
 ---
 
-##  Progress Checkpoint
-
-Before moving on, make sure you can:
-
-| Skill | Check |
-|-------|-------|
-| Construct message arrays with `SystemMessage`, `HumanMessage`, `AIMessage` |  |
-| Create reusable templates with `ChatPromptTemplate` |  |
-| Use variables in templates with `{placeholder}` syntax |  |
-| Implement few-shot prompting with `FewShotChatMessagePromptTemplate` |  |
-| Define Pydantic schemas for structured output |  |
-| Extract typed data using `with_structured_output()` |  |
-| Choose between messages and templates for different use cases |  |
-
----
-
 ##  Key Takeaways
-
-### Messages vs Templates
-
-| Aspect | Messages | Templates |
-|--------|----------|-----------|
-| **Best For** | Agents, dynamic workflows | RAG, reusable prompts |
-| **Flexibility** | High - build programmatically | Medium - predefined structure |
-| **Reusability** | Lower - often one-off | High - define once, use many |
-| **Complexity** | Can get complex with long histories | Easier to maintain |
 
 ### Structured Outputs
 
-- **Pydantic** is the Python equivalent of Zod in JavaScript
 - Use `Field(description="...")` to guide the AI
 - Nested models allow complex data structures
 - `Literal` types constrain values to specific options
-
-### When to Use What
-
-1. **Building an agent?** → Use message arrays
-2. **Building RAG?** → Use templates
-3. **Need consistent data?** → Use structured outputs
-4. **Teaching by example?** → Use few-shot prompting
 
 ---
 

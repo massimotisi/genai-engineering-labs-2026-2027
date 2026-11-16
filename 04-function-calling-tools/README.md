@@ -638,21 +638,6 @@ def send_email(email: str, subject: str, body: str) -> str:
 
 ---
 
-##  Progress Checkpoint
-
-Before moving on, make sure you can:
-
-| Skill | Check |
-|-------|-------|
-| Create tools with `@tool` decorator and Pydantic schemas |  |
-| Bind tools to models with `bind_tools()` |  |
-| Understand the 3-step execution pattern |  |
-| Execute tools and send results back to LLM |  |
-| Build multi-tool systems |  |
-| Write clear tool descriptions |  |
-
----
-
 ##  Key Takeaways
 
 - **Function calling** lets LLMs trigger real-world actions

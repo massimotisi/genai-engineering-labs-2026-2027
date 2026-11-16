@@ -153,8 +153,6 @@ Solutions for all exercises will be available in the [`solution/`](./solution/) 
 
 **Additional Examples**: Check out the [`samples/`](./samples/) folder for more examples including email generation, translation systems, dynamic prompt builders, and template libraries!
 
-> ** Note**: This assignment focuses on templates (Part 2 of this lab). For message-based patterns (Part 1), practice building agents later in the course!
-
 ---
 
 ## Need Help?
