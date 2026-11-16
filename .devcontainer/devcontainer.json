@@ -1,8 +1,14 @@
 {
   "name": "GenAI Engineering Labs",
-  
+
+  "image": "mcr.microsoft.com/devcontainers/python:1-3.12-bookworm",
+
   "features": {
     "ghcr.io/devcontainers/features/git:1": {}
+  },
+
+  "containerEnv": {
+    "GOOGLE_API_KEY": "${localEnv:GOOGLE_API_KEY}"
   },
 
   "customizations": {
