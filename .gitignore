@@ -42,8 +42,8 @@ Thumbs.db
 
 # 01-introduction/solution/*
 # 02-chat-models/solution/*
-03-prompts-messages-outputs/solution/*
-04-function-calling-tools/solution/*
+# 03-prompts-messages-outputs/solution/*
+# 04-function-calling-tools/solution/*
 05-agents/solution/*
 06-mcp/solution/*
 07-documents-embeddings-semantic-search/solution/*
