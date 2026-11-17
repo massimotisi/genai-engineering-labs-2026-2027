@@ -24,15 +24,24 @@ echo " Setting up environment variables..."
 if [ ! -f .env ]; then
     cp .env.example .env
     
-    # Store the Google AI API key in the variable expected by ChatOpenAI
+    # Store the Google AI API key for native and OpenAI-compatible clients.
     if [ -n "$GOOGLE_API_KEY" ]; then
         echo " Configuring Google API key..."
+        sed -i "s/GOOGLE_API_KEY=your_google_ai_api_key/GOOGLE_API_KEY=$GOOGLE_API_KEY/" .env
         sed -i "s/OPENAI_API_KEY=your_google_ai_api_key/OPENAI_API_KEY=$GOOGLE_API_KEY/" .env
     else
-        echo "️  GOOGLE_API_KEY not found. Please update OPENAI_API_KEY in .env manually."
+        echo "️  GOOGLE_API_KEY not found. Please update the API key entries in .env manually."
     fi
 else
     echo "️  .env file already exists, skipping creation."
+fi
+
+if [ -n "$GOOGLE_API_KEY" ]; then
+    if grep -q '^GOOGLE_API_KEY=your_google_ai_api_key$' .env; then
+        sed -i "s/GOOGLE_API_KEY=your_google_ai_api_key/GOOGLE_API_KEY=$GOOGLE_API_KEY/" .env
+    elif ! grep -q '^GOOGLE_API_KEY=' .env; then
+        printf '\nGOOGLE_API_KEY=%s\n' "$GOOGLE_API_KEY" >> .env
+    fi
 fi
 
 echo " Setup complete! Your environment is ready."

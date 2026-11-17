@@ -42,7 +42,7 @@ from typing import Literal, Optional
 from dotenv import load_dotenv
 from langchain_core.messages import AIMessage, HumanMessage, ToolMessage
 from langchain_core.tools import tool
-from langchain_openai import ChatOpenAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 from pydantic import BaseModel, Field
 
 # 2. Create input schema with Pydantic BaseModel
@@ -57,11 +57,7 @@ from pydantic import BaseModel, Field
 # 4. Bind the tool to the model using model.bind_tools()
 load_dotenv()
 
-model = ChatOpenAI(
-    model=os.getenv("AI_MODEL"),
-    base_url=os.getenv("OPENAI_BASE_URL"),
-    api_key=os.getenv("OPENAI_API_KEY"),
-)
+model = ChatGoogleGenerativeAI(model=os.environ["AI_MODEL"])
 
 # 5. Implement the 3-step execution pattern:
 #    Step 1: Invoke model with user query, check for tool_calls
@@ -107,7 +103,7 @@ import os
 from typing import Literal, Optional
 from dotenv import load_dotenv
 from langchain_core.tools import tool
-from langchain_openai import ChatOpenAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 from pydantic import BaseModel, Field
 
 # 2. Create Pydantic input schemas for each tool
@@ -124,11 +120,7 @@ from pydantic import BaseModel, Field
 # 4. Bind all three tools to the model with model.bind_tools([...])
 load_dotenv()
 
-model = ChatOpenAI(
-    model=os.getenv("AI_MODEL"),
-    base_url=os.getenv("OPENAI_BASE_URL"),
-    api_key=os.getenv("OPENAI_API_KEY"),
-)
+model = ChatGoogleGenerativeAI(model=os.environ["AI_MODEL"])
 
 # 5. Test with different queries and observe which tool the LLM selects
 

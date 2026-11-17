@@ -4,6 +4,8 @@ In this lab, you'll learn how to extend AI capabilities beyond text generation b
 
 This is a foundational lab for building AI agents. Tools are the building blocks that give agents their capabilities—without tools, agents are just text generators. 
 
+The examples use `ChatGoogleGenerativeAI`. Set `GOOGLE_API_KEY` and `AI_MODEL` in your `.env` file before running them.
+
 ##  Learning Objectives
 
 By the end of this lab, you'll be able to:
@@ -213,11 +215,7 @@ Let's see how to use `.bind_tools()` to make tools available and observe how the
 
 ```python
 # Create model and bind tools to it
-model = ChatOpenAI(
-    model=os.getenv("AI_MODEL"),
-    base_url=os.getenv("OPENAI_BASE_URL"),
-    api_key=os.getenv("OPENAI_API_KEY"),
-)
+model = ChatGoogleGenerativeAI(model=os.environ["AI_MODEL"])
 
 model_with_tools = model.bind_tools([calculator])  # Make tool available to LLM
 
@@ -232,7 +230,7 @@ print(response.tool_calls)  # [{"name": "calculator", "args": {"expression": "25
 **Example code:**
 
 ```python
-from langchain_openai import ChatOpenAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.tools import tool
 from pydantic import BaseModel, Field
 from dotenv import load_dotenv
@@ -250,11 +248,7 @@ def calculator(expression: str) -> str:
     return str(result)
 
 def main():
-    model = ChatOpenAI(
-        model=os.getenv("AI_MODEL"),
-        base_url=os.getenv("OPENAI_BASE_URL"),
-        api_key=os.getenv("OPENAI_API_KEY"),
-    )
+    model = ChatGoogleGenerativeAI(model=os.environ["AI_MODEL"])
 
     # Bind tools to the model
     model_with_tools = model.bind_tools([calculator])
@@ -319,7 +313,7 @@ tool_result = get_weather.invoke(tool_call["args"])
 # Step 3: Send result back to LLM (Communicating)
 messages = [
     HumanMessage(content=query),
-    AIMessage(content="", tool_calls=response1.tool_calls),
+    response1,
     ToolMessage(content=tool_result, tool_call_id=tool_call["id"]),
 ]
 final_response = model.invoke(messages)  # "The current temperature in Seattle is 62°F..."
@@ -331,7 +325,7 @@ final_response = model.invoke(messages)  # "The current temperature in Seattle i
 **Example code:**
 
 ```python
-from langchain_openai import ChatOpenAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.tools import tool
 from langchain_core.messages import HumanMessage, AIMessage, ToolMessage
 from pydantic import BaseModel, Field
@@ -351,11 +345,7 @@ def get_weather(city: str) -> str:
     return f"Current temperature in {city}: {temp}°F"
 
 def main():
-    model = ChatOpenAI(
-        model=os.getenv("AI_MODEL"),
-        base_url=os.getenv("OPENAI_BASE_URL"),
-        api_key=os.getenv("OPENAI_API_KEY"),
-    )
+    model = ChatGoogleGenerativeAI(model=os.environ["AI_MODEL"])
 
     model_with_tools = model.bind_tools([get_weather])
 
@@ -452,7 +442,7 @@ for query in queries:
 **Example code:**
 
 ```python
-from langchain_openai import ChatOpenAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.tools import tool
 from pydantic import BaseModel, Field
 from dotenv import load_dotenv
@@ -486,11 +476,7 @@ def get_weather(city: str) -> str:
     return f"Weather in {city}: 72°F, sunny"
 
 def main():
-    model = ChatOpenAI(
-        model=os.getenv("AI_MODEL"),
-        base_url=os.getenv("OPENAI_BASE_URL"),
-        api_key=os.getenv("OPENAI_API_KEY"),
-    )
+    model = ChatGoogleGenerativeAI(model=os.environ["AI_MODEL"])
 
     model_with_tools = model.bind_tools([calculator, search, get_weather])
 

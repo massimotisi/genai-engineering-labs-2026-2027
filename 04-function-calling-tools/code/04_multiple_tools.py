@@ -8,7 +8,7 @@ import os
 
 from dotenv import load_dotenv
 from langchain_core.tools import tool
-from langchain_openai import ChatOpenAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 from pydantic import BaseModel, Field
 
 # Load environment variables
@@ -64,11 +64,7 @@ def main():
     print(" Multiple Tools Demo\n")
     print("=" * 80 + "\n")
 
-    model = ChatOpenAI(
-        model=os.getenv("AI_MODEL"),
-        base_url=os.getenv("OPENAI_BASE_URL"),
-        api_key=os.getenv("OPENAI_API_KEY"),
-    )
+    model = ChatGoogleGenerativeAI(model=os.environ["AI_MODEL"])
 
     model_with_tools = model.bind_tools([calculator, search, get_weather])
 
